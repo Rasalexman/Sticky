@@ -1,0 +1,46 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion COMPILE_VERSION
+    buildToolsVersion BUILD_TOOLS
+    defaultConfig {
+        applicationId "com.mincor.sticky"
+        minSdkVersion MIN_VERSION
+        targetSdkVersion TARGET_VERSION
+        versionCode 10000
+        versionName "1.0.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "androidx.appcompat:appcompat:$appCompatXVersion"
+    implementation "androidx.core:core-ktx:$appCoreXVersion"
+    implementation "androidx.constraintlayout:constraintlayout:$constraintlayout"
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigation.fragment"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigation.ui"
+
+    //--- SHARED PREFERENCE
+    implementation "com.chibatching.kotpref:kotpref:$kotPrefVersion"
+
+    // COROUTINES MANAGER
+    implementation "com.rasalexman.coroutinesmanager:coroutinesmanager:$coroutinesManagerVersion"
+
+    implementation project(":sticky-library")
+    implementation "com.rasalexman.kodi:kodi:$kodiVersion"
+
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+}

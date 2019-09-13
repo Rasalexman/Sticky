@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">Sticky</string>
+
+
+    <string name="tab_home">Home</string>
+    <string name="tab_search">Search</string>
+    <string name="tab_profile">Profile</string>
+
+    <string name="title_loading">Loading…</string>
+    <string name="title_welcome">WELCOME TO STICKY APP</string>
+    <string name="title_signin">Sign in</string>
+    <string name="title_signup">Sign up</string>
+    <string name="title_register">Register</string>
+    <string name="title_name_hint">Enter name</string>
+    <string name="title_email_hint">Enter email</string>
+    <string name="title_password_hint">Enter password</string>
+    <string name="title_password_repeate_hint">Repeate password</string>
+
+
+    <string name="title_cancel">Cancel</string>
+    <string name="title_ok">OK</string>
+    <string name="title_back">Back</string>
+    <string name="title_try_again">Try again</string>
+    <string name="title_go_to_sign_up">Sign Up</string>
+
+    <string name="title_warning">Warning</string>
+    <string name="error_user_password_incorrect">User password is incorrect or you trying to enter into another account</string>
+    <string name="error_user_repeated_password_incorrect">Repeated password does not equal to password written before</string>
+    <string name="error_user_email_incorrect">User email is incorrect or you trying to enter into another account</string>
+    <string name="error_user_name_empty">User name is empty. Please enter a valid name first</string>
+    <string name="error_user_email_empty">User email is empty. Please enter a valid email address first</string>
+    <string name="error_user_password_empty">User password is empty. Please enter a valid password from your account</string>
+    <string name="error_user_not_exist">User account does not exist. Please Register!</string>
+    <string name="error_unexpected">Sorry. Somethings goes wrong. Please try later.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_home_fragment">HOME FRAGMENT</string>
+    <string name="title_search_fragment">SEARCH FRAGMENT</string>
+    <string name="title_profile_fragment">PROFILE FRAGMENT</string>
+</resources>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.onboarding.signin.SignInFragment">
+
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/layout_loading"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/contentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/size_64dp"
+            android:background="@color/background_header"
+            android:padding="@dimen/size_16dp"
+            android:text="@string/title_welcome"
+            android:textColor="@color/text_white"
+            android:textSize="@dimen/text_size_18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/emailEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size_64dp"
+            android:layout_marginTop="@dimen/size_16dp"
+            android:layout_marginEnd="@dimen/size_64dp"
+            android:background="@drawable/background_secondary_rounded_16dp"
+            android:hint="@string/title_email_hint"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:paddingStart="@dimen/size_16dp"
+            android:paddingTop="@dimen/size_8dp"
+            android:paddingEnd="@dimen/size_16dp"
+            android:paddingBottom="@dimen/size_8dp"
+            android:textColor="@color/text_white"
+            android:textColorHint="@color/text_white"
+            android:textSize="@dimen/text_size_16sp" />
+
+        <EditText
+            android:id="@+id/passwordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size_64dp"
+            android:layout_marginTop="@dimen/size_16dp"
+            android:layout_marginEnd="@dimen/size_64dp"
+            android:background="@drawable/background_secondary_rounded_16dp"
+            android:hint="@string/title_password_hint"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:paddingStart="@dimen/size_16dp"
+            android:paddingTop="@dimen/size_8dp"
+            android:paddingEnd="@dimen/size_16dp"
+            android:paddingBottom="@dimen/size_8dp"
+            android:textColor="@color/text_white"
+            android:textColorHint="@color/text_white"
+            android:textSize="@dimen/text_size_16sp" />
+
+        <Button
+            android:id="@+id/signInButton"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/size_36dp"
+            android:layout_marginTop="@dimen/size_32dp"
+            android:background="@drawable/background_button_default"
+            android:elevation="@dimen/size_2dp"
+            android:minHeight="@dimen/size_64dp"
+            android:paddingStart="@dimen/size_16dp"
+            android:paddingEnd="@dimen/size_16dp"
+            android:text="@string/title_signin"
+            android:textColor="@color/text_white" />
+
+        <Button
+            android:id="@+id/registerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/size_36dp"
+            android:layout_marginTop="@dimen/size_16dp"
+            android:layout_marginBottom="@dimen/size_24dp"
+            android:background="@drawable/background_button_default"
+            android:elevation="@dimen/size_2dp"
+            android:minHeight="@dimen/size_64dp"
+            android:paddingStart="@dimen/size_16dp"
+            android:paddingEnd="@dimen/size_16dp"
+            android:text="@string/title_register"
+            android:textColor="@color/text_white" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
