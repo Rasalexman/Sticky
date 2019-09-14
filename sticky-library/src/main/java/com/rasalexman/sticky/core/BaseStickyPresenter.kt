@@ -45,7 +45,8 @@ abstract class BaseStickyPresenter<V : IStickyView> : IStickyPresenter<V> {
     @Synchronized
     @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
     private fun onViewStateChanged() {
-        isViewAvailable.set(viewLifecycle?.currentState?.isAtLeast(viewAvailableState) ?: false)
+        val isViewReady = viewLifecycle?.currentState?.isAtLeast(Lifecycle.State.RESUMED) ?: false
+        isViewAvailable.set(isViewReady)
     }
 
     @Synchronized

@@ -6,6 +6,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 
+const val YUI = "----->"
+
 data class ScrollPosition(var index: Int = 0, var top: Int = 0) {
     fun drop() {
         index = 0

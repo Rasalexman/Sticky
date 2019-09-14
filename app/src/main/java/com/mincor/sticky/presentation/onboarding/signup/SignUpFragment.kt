@@ -1,10 +1,12 @@
 package com.mincor.sticky.presentation.onboarding.signup
 
 
+import android.os.Bundle
 import android.view.View
 import com.mincor.kodi.core.IKodi
 import com.mincor.kodi.core.immutableInstance
 import com.mincor.sticky.R
+import com.mincor.sticky.common.YUI
 import com.mincor.sticky.presentation.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 
@@ -15,6 +17,11 @@ class SignUpFragment : BaseFragment<ISignUpContract.IView, ISignUpContract.IPres
 
     override val layoutId: Int
         get() = R.layout.fragment_sign_up
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        println("$YUI onViewCreated in SignUpFragment")
+    }
 
     override fun addListeners() {
         registerButton.setOnClickListener(::registerButtonClickHandler)

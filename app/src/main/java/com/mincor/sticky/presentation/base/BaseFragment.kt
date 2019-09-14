@@ -54,10 +54,14 @@ abstract class BaseFragment<V : IStickyView, P : IStickyPresenter<V>> :
     }
 
     override fun onBackPressed(): Boolean {
-        return true
+        val backStackEntryCount = this.childFragmentManager.backStackEntryCount
+        return backStackEntryCount == 0
     }
 
     override fun onSupportNavigateUp(): Boolean {
         return true
     }
+
+    override val currentNavHandler: INavigationHandler?
+        get() = this
 }

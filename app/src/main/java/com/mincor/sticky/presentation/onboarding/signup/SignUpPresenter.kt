@@ -4,6 +4,7 @@ import android.util.Patterns
 import androidx.navigation.NavController
 import com.mincor.kodi.core.IKodi
 import com.mincor.sticky.R
+import com.mincor.sticky.common.YUI
 import com.mincor.sticky.data.local.IUserAccount
 import com.mincor.sticky.navigation.mainNavigator
 import com.mincor.sticky.navigation.onboardingNavigator
@@ -19,6 +20,10 @@ class SignUpPresenter(
 
     private val navigatorController: NavController by onboardingNavigator()
     private val mainNavigator: NavController by mainNavigator()
+
+    override fun onViewAttached(view: ISignUpContract.IView) {
+        println("$YUI HELLO FROM SignUpPresenter")
+    }
 
     override fun onRegisterClicked(
         name: String,
