@@ -53,12 +53,12 @@ abstract class BaseStickyFrameLayout<V : IStickyView, P : IStickyPresenter<V>> :
     }
 
     /**
+     * This function is used for init layout
      *
+     * @param context app context
      */
     private fun initLayout(context: Context) {
-        val view = LayoutInflater.from(context).inflate(layoutId, this, false)
-        this.addView(view)
-        onViewCreated(view)
+        onViewCreated(LayoutInflater.from(context).inflate(layoutId, this, true))
     }
 
     /**
@@ -84,7 +84,7 @@ abstract class BaseStickyFrameLayout<V : IStickyView, P : IStickyPresenter<V>> :
     /**
      *
      */
-    private fun getLifecycleOwner(): LifecycleOwner {
+    protected open fun getLifecycleOwner(): LifecycleOwner {
         var context: Context = context
         while (context !is LifecycleOwner) {
             context = (context as ContextWrapper).baseContext

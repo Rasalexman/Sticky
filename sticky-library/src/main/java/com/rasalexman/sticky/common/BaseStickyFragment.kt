@@ -1,6 +1,5 @@
 package com.rasalexman.sticky.common
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,11 +24,14 @@ abstract class BaseStickyFragment<V : IStickyView, P : IStickyPresenter<V>> : Fr
      */
     abstract val layoutId: Int
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         presenter.attachView(view = this as V, viewLifecycle = lifecycle)
     }
 
+    /**
+     *
+     */
     open fun addListeners() = Unit
 
     /**

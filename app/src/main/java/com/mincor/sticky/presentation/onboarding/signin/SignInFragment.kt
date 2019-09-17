@@ -1,23 +1,18 @@
 package com.mincor.sticky.presentation.onboarding.signin
 
-import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import android.widget.Toast
+import com.mincor.kodi.core.IKodi
+import com.mincor.kodi.core.immutableInstance
 import com.mincor.sticky.R
+import com.mincor.sticky.common.UnitHandler
+import com.mincor.sticky.common.YUI
+import com.mincor.sticky.common.hide
+import com.mincor.sticky.common.show
+import com.mincor.sticky.presentation.base.BaseFragment
+import kotlinx.android.synthetic.main.layout_signin.*
 
-class SignInFragment : Fragment() {
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_sign_in, container, false)
-    }
-}/*BaseFragment<ISignInContract.IView, ISignInContract.IPresenter>(),
+class SignInFragment : BaseFragment<ISignInContract.IView, ISignInContract.IPresenter>(),
         ISignInContract.IView, IKodi {
 
     override val presenter: ISignInContract.IPresenter by immutableInstance()
@@ -45,4 +40,13 @@ class SignInFragment : Fragment() {
         contentLayout.hide()
         super.showLoading()
     }
-}*/
+
+    override fun showAlertDialog(message: Int, okTitle: Int, okHandler: UnitHandler?) {
+        println("$YUI showAlertDialog")
+        super.showAlertDialog(message, okTitle, okHandler)
+    }
+
+    override fun showToast(message: String, interval: Int) {
+        Toast.makeText(requireContext(), message, interval).show()
+    }
+}

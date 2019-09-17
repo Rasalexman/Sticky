@@ -5,10 +5,9 @@
     android:layout_height="match_parent"
     tools:context=".presentation.start.StartFragment">
 
-    <com.mincor.sticky.presentation.start.loading.LoadingLayout
+    <include layout="@layout/layout_loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"/>
-
 
 </FrameLayout>

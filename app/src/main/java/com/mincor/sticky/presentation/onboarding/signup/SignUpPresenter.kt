@@ -32,7 +32,7 @@ class SignUpPresenter(
         repeatedPassword: String
     ) = launchOnUITryCatch(
         tryBlock = {
-            view().stickySuspension<Unit> {
+            view().singleSticky {
                 showLoading()
                 when {
                     name.isEmpty() -> showAlertDialog(R.string.error_user_name_empty)

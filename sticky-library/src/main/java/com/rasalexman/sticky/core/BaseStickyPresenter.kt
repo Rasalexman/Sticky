@@ -3,14 +3,12 @@ package com.rasalexman.sticky.core
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.OnLifecycleEvent
 import java.util.concurrent.atomic.AtomicBoolean
-import kotlin.coroutines.Continuation
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
+import kotlin.coroutines.*
 
-typealias StickyBlock<V, R> = V.(StickyContinuation<R>) -> Unit
 typealias ViewContinuations<V> = MutableList<Continuation<V>>
-typealias StickyContinuations<V> = MutableMap<StickyContinuation<*>, StickyBlock<V, *>>
+typealias StickyList<V> = MutableList<BaseSticky<V>>
 
+@Suppress("UNCHECKED_CAST")
 abstract class BaseStickyPresenter<V : IStickyView> : IStickyPresenter<V> {
     override var unsafeView: V? = null
 
@@ -18,8 +16,10 @@ abstract class BaseStickyPresenter<V : IStickyView> : IStickyPresenter<V> {
 
     private var viewLifecycle: Lifecycle? = null
     private val isViewAvailable = AtomicBoolean(true)
+
     private val viewContinuations: ViewContinuations<V> = mutableListOf()
-    private val stickyContinuations: StickyContinuations<V> = mutableMapOf()
+    private val stickyList: StickyList<V> = mutableListOf()
+
     private var mustRestoreStickyContinuations: Boolean = false
 
     @Synchronized
@@ -76,14 +76,10 @@ abstract class BaseStickyPresenter<V : IStickyView> : IStickyPresenter<V> {
             if (mustRestoreStickyContinuations) {
                 mustRestoreStickyContinuations = false
 
-                val stickyContinuationsIterator = stickyContinuations.iterator()
-
-                while (stickyContinuationsIterator.hasNext()) {
-                    val stickyContinuationBlockMap = stickyContinuationsIterator.next()
-                    val stickyContinuation = stickyContinuationBlockMap.key
-                    val stickyContinuationBlock = stickyContinuationBlockMap.value
-                    viewInstance.stickyContinuationBlock(stickyContinuation)
-                    stickyContinuation.checkStickyState()
+                val stickiesIterator = stickyList.listIterator()
+                while (stickiesIterator.hasNext()) {
+                    val sticky = stickiesIterator.next()
+                    sticky.resume(viewInstance)
                 }
             }
         }
@@ -98,60 +94,48 @@ abstract class BaseStickyPresenter<V : IStickyView> : IStickyPresenter<V> {
         mustRestoreStickyContinuations = true
     }
 
-    fun onCleared() {
-        cleanup()
-    }
-
-    @Synchronized
-    private fun addStickyContinuation(
-        continuation: StickyContinuation<*>,
-        block: StickyBlock<V, *>
-    ) {
-        stickyContinuations[continuation] = block
-    }
-
-    @Synchronized
-    override fun removeStickyContinuation(continuation: StickyContinuation<*>): Boolean {
-        return stickyContinuations.remove(continuation)?.let {
-            continuation.clear()
-            true
-        } ?: false
-    }
-
-    /**
-     * Executes the given block on the unsafeView. The block is executed again
-     * every time the unsafeView instance changes and the new unsafeView is resumed.
-     * This, for example, is useful for dialogs that need to be persisted
-     * across orientation changes.
-     *
-     * @param block code that has to be executed on the unsafeView
-     */
-    @Suppress("UNCHECKED_CAST")
-    suspend fun <ReturnType> V.stickySuspension(
+    fun V.sticky(
         strategy: StickyStrategy = StickyStrategy.Many,
-        block: StickyBlock<V, ReturnType>
-    ): ReturnType {
-        return suspendCoroutine { continuation ->
-            val stickyContinuation: StickyContinuation<ReturnType> =
-                    StickyContinuation(continuation, this@BaseStickyPresenter, strategy)
-            addStickyContinuation(stickyContinuation, block as V.(StickyContinuation<*>) -> Unit)
-            block(stickyContinuation).also {
-                stickyContinuation.checkStickyState()
-            }
+        stickyContext: CoroutineContext = EmptyCoroutineContext,
+        block: StickyBlock<V>
+    ): BaseSticky<V> {
+        return Sticky(strategy, stickyContext, block).apply {
+            removerCallback = ::removeSticky
+            addSticky(this)
+            resume(this@sticky)
         }
+    }
+
+    fun V.sticky(
+        stickyContext: CoroutineContext = EmptyCoroutineContext,
+        block: StickyBlock<V>
+    ) = sticky(StickyStrategy.Many, stickyContext, block)
+
+    @ExperimentalUnsignedTypes
+    fun V.sticky(
+        executionCount: UInt,
+        stickyContext: CoroutineContext = EmptyCoroutineContext,
+        block: StickyBlock<V>
+    ) = sticky(StickyStrategy.Counter(executionCount), stickyContext, block)
+
+    fun V.singleSticky(
+        stickyContext: CoroutineContext = EmptyCoroutineContext,
+        block: StickyBlock<V>
+    ) = sticky(StickyStrategy.Single, stickyContext, block)
+
+    @Synchronized
+    private fun removeSticky(sticky: BaseSticky<V>) {
+        stickyList.remove(sticky)
+    }
+
+    @Synchronized
+    private fun addSticky(sticky: BaseSticky<V>) {
+        stickyList.add(sticky)
     }
 
     @Synchronized
     open fun cleanup() {
         viewContinuations.clear()
-        stickyContinuations.clear()
-    }
-
-    private fun <ReturnType> StickyContinuation<ReturnType>.checkStickyState() {
-        when (this.strategy) {
-            is StickyStrategy.Single -> removeStickyContinuation(this)
-            is StickyStrategy.Counter -> this.increaseCounter()
-            is StickyStrategy.Many -> Unit
-        }
+        stickyList.clear()
     }
 }

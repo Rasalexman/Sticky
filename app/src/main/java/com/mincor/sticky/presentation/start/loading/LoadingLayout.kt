@@ -20,7 +20,6 @@ class LoadingLayout : BaseStickyFrameLayout<ILoadingContract.IView, ILoadingCont
 
     override val presenter: ILoadingContract.IPresenter by immutableInstance()
 
-
     override fun onViewCreated(view: View) {
         super.onViewCreated(view)
         println("$YUI onViewCreated LoadingLayout")

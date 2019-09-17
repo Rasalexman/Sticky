@@ -6,5 +6,4 @@ import androidx.lifecycle.LifecycleObserver
 interface IStickyPresenter<V : IStickyView> : LifecycleObserver {
     var unsafeView: V?
     fun attachView(view: V, viewLifecycle: Lifecycle)
-    fun removeStickyContinuation(continuation: StickyContinuation<*>): Boolean
 }

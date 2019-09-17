@@ -23,14 +23,14 @@ class StartPresenter(
         tryBlock = {
             println("$YUI HELLO THIS IS A START PRESENTER with navigator $mainNavigator")
 
-            view().showLoading()
-
-            if(userAccount.isRegistered()) {
-                mainNavigator.navigate(R.id.action_startFragment_to_tabFragment)
-            } else {
-                mainNavigator.navigate(R.id.action_startFragment_to_onboarding)
+            view().singleSticky {
+                showLoading()
+                if(userAccount.isRegistered()) {
+                    mainNavigator.navigate(R.id.action_startFragment_to_tabFragment)
+                } else {
+                    mainNavigator.navigate(R.id.action_startFragment_to_onboarding)
+                }
             }
-
         }, catchBlock = {
             view().showToast(R.string.error_unexpected)
         }
