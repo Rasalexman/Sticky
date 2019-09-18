@@ -7,7 +7,6 @@ apply from: 'keystore.gradle'
 
 android {
     compileSdkVersion COMPILE_VERSION
-    buildToolsVersion BUILD_TOOLS
 
     defaultConfig {
         minSdkVersion MIN_VERSION
@@ -16,7 +15,6 @@ android {
         versionName stickyLibVersion
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles 'consumer-rules.pro'
     }
 
     buildTypes {
@@ -41,7 +39,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    api "androidx.appcompat:appcompat:$appCompatXVersion"
+    implementation "androidx.appcompat:appcompat:$appCompatXVersion"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
