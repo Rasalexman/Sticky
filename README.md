@@ -5,6 +5,9 @@ Save view state with coroutines continuation
 
 Gradle:
 ```
+// add maven repository 
+maven { url  "https://dl.bintray.com/sphc/Sticky" }
+
 // Standart Library
 implementation 'com.rasalexman.sticky:sticky:x.y.z'
 ```
