@@ -10,15 +10,12 @@ import com.mincor.sticky.data.local.isRegistered
 import com.mincor.sticky.navigation.mainNavigator
 import com.mincor.sticky.navigation.onboardingNavigator
 import com.rasalexman.coroutinesmanager.ICoroutinesManager
-import com.rasalexman.coroutinesmanager.launchOnUI
 import com.rasalexman.coroutinesmanager.launchOnUITryCatch
-import com.rasalexman.sticky.core.BaseStickyPresenter
 
 class SignInPresenter(
     private val userAccount: IUserAccount,
     coroutinesManager: ICoroutinesManager
-) : BaseStickyPresenter<ISignInContract.IView>(),
-    ISignInContract.IPresenter, IKodi, ICoroutinesManager by coroutinesManager {
+) : ISignInContract.IPresenter, IKodi, ICoroutinesManager by coroutinesManager {
 
     private val navigatorController: NavController by onboardingNavigator()
     private val mainNavigator: NavController by mainNavigator()
@@ -61,11 +58,7 @@ class SignInPresenter(
     )
 
     override fun onRegisterClicked() {
-        launchOnUI {
-            view().singleSticky {
-                navigatorController.navigate(R.id.action_signInFragment_to_signUpFragment)
-            }
-        }
+        navigatorController.navigate(R.id.action_signInFragment_to_signUpFragment)
     }
 
     private fun navigateToMainScreen() {

@@ -14,8 +14,7 @@ import com.rasalexman.sticky.core.IStickyPresenter
 import com.rasalexman.sticky.core.IStickyView
 
 @Suppress("UNCHECKED_CAST")
-abstract class BaseStickyFrameLayout<V : IStickyView, P : IStickyPresenter<V>> : FrameLayout,
-    IStickyView, LifecycleOwner {
+abstract class BaseStickyFrameLayout<P : IStickyPresenter<out IStickyView>> : FrameLayout, LifecycleOwner {
 
     /**
      *
@@ -66,7 +65,9 @@ abstract class BaseStickyFrameLayout<V : IStickyView, P : IStickyPresenter<V>> :
      */
     override fun onFinishInflate() {
         super.onFinishInflate()
-        presenter.attachView(this as V, lifecycle)
+        if(this is IStickyView) {
+            presenter.attach(this)
+        }
     }
 
     /**

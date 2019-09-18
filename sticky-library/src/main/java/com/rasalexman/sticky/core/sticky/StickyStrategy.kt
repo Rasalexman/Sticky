@@ -1,4 +1,4 @@
-package com.rasalexman.sticky.core
+package com.rasalexman.sticky.core.sticky
 
 sealed class StickyStrategy {
     object Many : StickyStrategy()

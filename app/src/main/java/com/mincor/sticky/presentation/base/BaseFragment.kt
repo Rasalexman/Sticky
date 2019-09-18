@@ -11,8 +11,7 @@ import com.rasalexman.sticky.common.BaseStickyFragment
 import com.rasalexman.sticky.core.IStickyPresenter
 import com.rasalexman.sticky.core.IStickyView
 
-abstract class BaseFragment<V : IStickyView, P : IStickyPresenter<V>> :
-    BaseStickyFragment<V, P>(), INavigationHandler {
+abstract class BaseFragment<P : IStickyPresenter<out IStickyView>> : BaseStickyFragment<P>(), INavigationHandler {
 
     open fun showAlertDialog(message: Int, okTitle: Int = R.string.title_try_again, okHandler: UnitHandler? = null) {
         context?.let { liveContext ->

@@ -17,32 +17,24 @@ import com.mincor.sticky.presentation.onboarding.signup.SignUpPresenter
 /**
  * A simple [Fragment] subclass.
  */
-class OnboardingFragment : BaseHostFragment<IOnboardingContract.IView, IOnboardingContract.IPresenter>(),
+class OnboardingFragment : BaseHostFragment<IOnboardingContract.IPresenter>(),
     IOnboardingContract.IView, IKodi {
 
-    private val onBoardingModule = kodiModule {
-        bind<IOnboardingContract.IPresenter>()      with single {
-            OnboardingPresenter(
-                instance(),
-                instance()
-            )
-        }
-        bind<ISignInContract.IPresenter>()          with single { SignInPresenter(instance(), instance()) }
-        bind<ISignUpContract.IPresenter>()          with single { SignUpPresenter(instance(), instance()) }
-    } withScope ONBOARDING_NAVIGATOR.asScope()
+    override val presenter: IOnboardingContract.IPresenter
+            get() = instance()
 
-    init {
-        kodi {
-            import(onBoardingModule)
-        }
-    }
-
-    override val presenter: IOnboardingContract.IPresenter by immutableInstance()
     override val layoutId: Int
         get() = R.layout.host_fragment_onboarding
 
     override val navControllerId: Int
         get() = R.id.onboardingHostFragment
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        if(savedInstanceState == null) {
+            import(onBoardingModule)
+        }
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -51,6 +43,19 @@ class OnboardingFragment : BaseHostFragment<IOnboardingContract.IView, IOnboardi
             unbind<NavController>(ONBOARDING_NAVIGATOR)
             bind<NavController>(ONBOARDING_NAVIGATOR) with provider { onBoardingNavController }
         }
+    }
+
+    companion object {
+        private val onBoardingModule = kodiModule {
+            bind<IOnboardingContract.IPresenter>()      with single {
+                OnboardingPresenter(
+                    instance(),
+                    instance()
+                )
+            }
+            bind<ISignInContract.IPresenter>()          with single { SignInPresenter(instance(), instance()) }
+            bind<ISignUpContract.IPresenter>()          with single { SignUpPresenter(instance(), instance()) }
+        } withScope ONBOARDING_NAVIGATOR.asScope()
     }
 }
 

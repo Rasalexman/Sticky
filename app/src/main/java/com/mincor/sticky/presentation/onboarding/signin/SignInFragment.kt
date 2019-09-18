@@ -12,7 +12,7 @@ import com.mincor.sticky.common.show
 import com.mincor.sticky.presentation.base.BaseFragment
 import kotlinx.android.synthetic.main.layout_signin.*
 
-class SignInFragment : BaseFragment<ISignInContract.IView, ISignInContract.IPresenter>(),
+class SignInFragment : BaseFragment<ISignInContract.IPresenter>(),
         ISignInContract.IView, IKodi {
 
     override val presenter: ISignInContract.IPresenter by immutableInstance()

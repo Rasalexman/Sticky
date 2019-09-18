@@ -3,7 +3,13 @@ package com.rasalexman.sticky.common
 /**
  *
  */
-sealed class StickyException(message: String?) : Exception(message) {
+sealed class StickyException(message: String?) : RuntimeException(message) {
+
+    /**
+     *
+     */
+    class StickyCastException : StickyException("Base Fragment does not implement interface IStickyView")
+
     /**
      *
      */

@@ -20,22 +20,8 @@ import kotlinx.android.synthetic.main.host_fragment_tabs.*
 /**
  * A simple [BaseHostFragment] subclass.
  */
-class TabsFragment : BaseHostFragment<ITabsContract.IView, ITabsContract.IPresenter>(),
+class TabsFragment : BaseHostFragment<ITabsContract.IPresenter>(),
     ITabsContract.IView, IKodi {
-
-    private val tabsModule = kodiModule {
-        bind<ITabsContract.IPresenter>()        with single { TabsPresenter(instance()) }
-
-        bind<IHomeContract.IPresenter>()        with single { HomePresenter(instance()) }
-        bind<IProfileContract.IPresenter>()     with single { ProfilePresenter(instance()) }
-        bind<ISearchContract.IPresenter>()      with single { SearchPresenter(instance()) }
-    } withScope TAB_NAVIGATOR.asScope()
-
-    init {
-        kodi {
-            import(tabsModule)
-        }
-    }
 
     override val presenter: ITabsContract.IPresenter by immutableInstance()
     override val layoutId: Int
@@ -43,6 +29,13 @@ class TabsFragment : BaseHostFragment<ITabsContract.IView, ITabsContract.IPresen
 
     override val navControllerId: Int
         get() = R.id.tabsHostFragment
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        if(savedInstanceState == null) {
+            import(tabsModule)
+        }
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -52,5 +45,15 @@ class TabsFragment : BaseHostFragment<ITabsContract.IView, ITabsContract.IPresen
             unbind<NavController>(TAB_NAVIGATOR)
             bind<NavController>(TAB_NAVIGATOR) with provider { tabNavController }
         }
+    }
+
+    companion object {
+        private val tabsModule = kodiModule {
+            bind<ITabsContract.IPresenter>()        with single { TabsPresenter(instance()) }
+
+            bind<IHomeContract.IPresenter>()        with single { HomePresenter(instance()) }
+            bind<IProfileContract.IPresenter>()     with single { ProfilePresenter(instance()) }
+            bind<ISearchContract.IPresenter>()      with single { SearchPresenter(instance()) }
+        } withScope TAB_NAVIGATOR.asScope()
     }
 }

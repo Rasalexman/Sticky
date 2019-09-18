@@ -11,8 +11,12 @@ import com.rasalexman.sticky.core.IStickyView
 /**
  * Base Sticky Fragment
  */
-@Suppress("UNCHECKED_CAST")
-abstract class BaseStickyFragment<V : IStickyView, P : IStickyPresenter<V>> : Fragment(), IStickyView {
+abstract class BaseStickyFragment<P : IStickyPresenter<out IStickyView>> : Fragment() {
+
+    /**
+     *
+     */
+    open val safeFragment: Boolean = false
 
     /**
      *
@@ -24,9 +28,16 @@ abstract class BaseStickyFragment<V : IStickyView, P : IStickyPresenter<V>> : Fr
      */
     abstract val layoutId: Int
 
+    /**
+     *
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        presenter.attachView(view = this as V, viewLifecycle = lifecycle)
+        if(this is IStickyView) {
+            presenter.attach(this)
+        } else if(safeFragment) {
+            throw StickyException.StickyCastException()
+        }
     }
 
     /**
@@ -42,6 +53,9 @@ abstract class BaseStickyFragment<V : IStickyView, P : IStickyPresenter<V>> : Fr
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(layoutId, container, false)
 
+    /**
+     *
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         addListeners()

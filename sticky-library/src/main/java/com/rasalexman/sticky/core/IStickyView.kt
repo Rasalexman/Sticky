@@ -1,3 +1,7 @@
 package com.rasalexman.sticky.core
 
-interface IStickyView
+import androidx.lifecycle.Lifecycle
+
+interface IStickyView {
+    fun getLifecycle(): Lifecycle
+}

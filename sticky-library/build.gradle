@@ -1,18 +1,19 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'org.jetbrains.dokka-android'
+apply plugin: 'maven-publish'
 apply from: 'keystore.gradle'
 
 android {
     compileSdkVersion COMPILE_VERSION
     buildToolsVersion BUILD_TOOLS
 
-
     defaultConfig {
         minSdkVersion MIN_VERSION
         targetSdkVersion TARGET_VERSION
-        versionCode libCore
-        versionName libVersion
+        versionCode stickyLibCode
+        versionName stickyLibVersion
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -32,6 +33,7 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
+        freeCompilerArgs = ["-XXLanguage:+InlineClasses", "-Xexperimental=kotlin.ExperimentalUnsignedTypes"]
     }
 
 }
@@ -40,9 +42,18 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     api "androidx.appcompat:appcompat:$appCompatXVersion"
-    api "androidx.core:core-ktx:$appCoreXVersion"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
+
+dokka {
+    outputFormat = 'html'
+    outputDirectory = "$buildDir/javadoc"
+}
+
+repositories {
+    mavenCentral()
+}
+apply from: 'deploy.gradle'

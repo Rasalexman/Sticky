@@ -10,13 +10,11 @@ import com.mincor.sticky.navigation.mainNavigator
 import com.mincor.sticky.navigation.onboardingNavigator
 import com.rasalexman.coroutinesmanager.ICoroutinesManager
 import com.rasalexman.coroutinesmanager.launchOnUITryCatch
-import com.rasalexman.sticky.core.BaseStickyPresenter
 
 class SignUpPresenter(
     private val userAccount: IUserAccount,
     coroutinesManager: ICoroutinesManager
-) : BaseStickyPresenter<ISignUpContract.IView>(),
-    ISignUpContract.IPresenter, IKodi, ICoroutinesManager by coroutinesManager {
+) : ISignUpContract.IPresenter, IKodi, ICoroutinesManager by coroutinesManager {
 
     private val navigatorController: NavController by onboardingNavigator()
     private val mainNavigator: NavController by mainNavigator()

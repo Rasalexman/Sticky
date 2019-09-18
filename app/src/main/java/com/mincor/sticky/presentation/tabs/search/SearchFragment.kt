@@ -10,7 +10,7 @@ import com.mincor.sticky.presentation.base.BaseFragment
 /**
  * A simple [Fragment] subclass.
  */
-class SearchFragment : BaseFragment<ISearchContract.IView, ISearchContract.IPresenter>(),
+class SearchFragment : BaseFragment<ISearchContract.IPresenter>(),
     ISearchContract.IView, IKodi {
 
     override val presenter: ISearchContract.IPresenter by immutableInstance()

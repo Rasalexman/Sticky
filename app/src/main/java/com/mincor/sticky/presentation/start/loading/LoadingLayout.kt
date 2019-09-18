@@ -9,7 +9,7 @@ import com.mincor.sticky.R
 import com.mincor.sticky.common.YUI
 import com.rasalexman.sticky.common.BaseStickyFrameLayout
 
-class LoadingLayout : BaseStickyFrameLayout<ILoadingContract.IView, ILoadingContract.IPresenter>,
+class LoadingLayout : BaseStickyFrameLayout<ILoadingContract.IPresenter>,
     ILoadingContract.IView, IKodi {
 
     constructor(context: Context) : super(context)

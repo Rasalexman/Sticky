@@ -5,7 +5,7 @@ import androidx.navigation.Navigation
 import com.rasalexman.sticky.core.IStickyPresenter
 import com.rasalexman.sticky.core.IStickyView
 
-abstract class BaseHostFragment<V : IStickyView, P : IStickyPresenter<V>> : BaseFragment<V, P>()  {
+abstract class BaseHostFragment<P : IStickyPresenter<out IStickyView>> : BaseFragment<P>()  {
 
     open val navControllerId: Int = -1
 

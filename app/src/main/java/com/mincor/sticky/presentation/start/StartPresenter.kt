@@ -9,17 +9,14 @@ import com.mincor.sticky.data.local.isRegistered
 import com.mincor.sticky.navigation.mainNavigator
 import com.rasalexman.coroutinesmanager.ICoroutinesManager
 import com.rasalexman.coroutinesmanager.launchOnUITryCatch
-import com.rasalexman.sticky.core.BaseStickyPresenter
 
-class StartPresenter(
-    private val userAccount: IUserAccount,
-    coroutinesManager: ICoroutinesManager
-) : BaseStickyPresenter<IStartContract.IView>(),
-    IStartContract.IPresenter, IKodi, ICoroutinesManager by coroutinesManager {
+data class StartPresenter(
+    private val userAccount: IUserAccount
+) : BaseStartPresenter(), IKodi, ICoroutinesManager {
 
     private val mainNavigator: NavController by mainNavigator()
 
-    override fun onViewAttached(view: IStartContract.IView) = launchOnUITryCatch(
+    override fun onViewAttached(view: IStartContract.IStartView) = launchOnUITryCatch(
         tryBlock = {
             println("$YUI HELLO THIS IS A START PRESENTER with navigator $mainNavigator")
 
@@ -35,4 +32,11 @@ class StartPresenter(
             view().showToast(R.string.error_unexpected)
         }
     )
+
+    override fun onViewDestroyed() {
+        super.onViewDestroyed()
+        cleanup()
+    }
 }
+
+abstract class BaseStartPresenter : IStartContract.IStartPresenter

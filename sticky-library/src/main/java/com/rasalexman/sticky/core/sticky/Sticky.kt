@@ -1,17 +1,20 @@
-package com.rasalexman.sticky.core
+package com.rasalexman.sticky.core.sticky
 
 import com.rasalexman.sticky.common.StickyException
+import com.rasalexman.sticky.core.IStickyView
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.coroutines.resumeWithException
 
-typealias StickyBlock<V> = V.(BaseSticky<V>) -> Unit
-
-data class Sticky<V>(
-    private val strategy: StickyStrategy = StickyStrategy.Many,
+data class Sticky<V : IStickyView>(
+    override val stickyStrategy: StickyStrategy = StickyStrategy.Many,
     override val context: CoroutineContext = EmptyCoroutineContext,
-    private var stickyBlock: StickyBlock<V>? = null
-) : BaseSticky<V>(strategy) {
+    override var stickyBlock: StickyBlock<V>? = null,
+    override var removerCallback: StickyRemover<V>? = null
+) : ISticky<V> {
+
+    override var exception: Throwable? = null
+    override var counter: UInt = 0u
 
     /**
      *
@@ -32,10 +35,5 @@ data class Sticky<V>(
             }
         }
         checkState()
-    }
-
-    override fun clearSticky() {
-        super.clearSticky()
-        stickyBlock = null
     }
 }
