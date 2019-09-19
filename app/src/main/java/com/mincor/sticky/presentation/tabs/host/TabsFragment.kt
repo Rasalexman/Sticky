@@ -15,6 +15,7 @@ import com.mincor.sticky.presentation.tabs.profile.IProfileContract
 import com.mincor.sticky.presentation.tabs.profile.ProfilePresenter
 import com.mincor.sticky.presentation.tabs.search.ISearchContract
 import com.mincor.sticky.presentation.tabs.search.SearchPresenter
+import com.mincor.sticky.presentation.tabs.search.SearchViewModel
 import kotlinx.android.synthetic.main.host_fragment_tabs.*
 
 /**
@@ -51,9 +52,11 @@ class TabsFragment : BaseHostFragment<ITabsContract.IPresenter>(),
         private val tabsModule = kodiModule {
             bind<ITabsContract.IPresenter>()        with single { TabsPresenter(instance()) }
 
+            bind<SearchViewModel>()                 with single { SearchViewModel() }
+
             bind<IHomeContract.IPresenter>()        with single { HomePresenter(instance()) }
             bind<IProfileContract.IPresenter>()     with single { ProfilePresenter(instance()) }
-            bind<ISearchContract.IPresenter>()      with single { SearchPresenter(instance()) }
+            bind<ISearchContract.IPresenter>()      with single { SearchPresenter(instance(), instance()) }
         } withScope TAB_NAVIGATOR.asScope()
     }
 }

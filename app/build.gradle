@@ -39,16 +39,22 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation.fragment"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation.ui"
 
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
+    // alternately - if using Java8, use the following instead of lifecycle-compiler
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
+
     //--- SHARED PREFERENCE
     implementation "com.chibatching.kotpref:kotpref:$kotPrefVersion"
 
     // COROUTINES MANAGER
     implementation "com.rasalexman.coroutinesmanager:coroutinesmanager:$coroutinesManagerVersion"
 
-    //implementation project(":sticky-library")
+    implementation project(":sticky-library")
     implementation "com.rasalexman.kodi:kodi:$kodiVersion"
 
-    implementation "com.rasalexman.sticky:sticky:1.0.2"
+    //implementation "com.rasalexman.sticky:sticky:1.0.2"
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'

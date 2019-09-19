@@ -32,6 +32,7 @@
     <string name="error_user_password_empty">User password is empty. Please enter a valid password from your account</string>
     <string name="error_user_not_exist">User account does not exist. Please Register!</string>
     <string name="error_unexpected">Sorry. Somethings goes wrong. Please try later.</string>
+    <string name="error_reducer_unexpected">Sorry. Somethings goes wrong with reducer call.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

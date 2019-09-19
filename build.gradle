@@ -40,6 +40,7 @@ buildscript {
         appCompatXVersion = '1.1.0'
         appCoreXVersion = '1.1.0'
         constraintlayout = '1.1.3'
+        lifecycleVersion = '2.2.0-alpha05'
 
         kodiVersion = "1.2.4"
         kotPrefVersion = "2.9.1"

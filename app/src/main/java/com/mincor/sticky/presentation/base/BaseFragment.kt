@@ -7,7 +7,7 @@ import com.mincor.sticky.R
 import com.mincor.sticky.common.UnitHandler
 import com.mincor.sticky.common.hide
 import com.mincor.sticky.common.show
-import com.rasalexman.sticky.common.BaseStickyFragment
+import com.rasalexman.sticky.base.BaseStickyFragment
 import com.rasalexman.sticky.core.IStickyPresenter
 import com.rasalexman.sticky.core.IStickyView
 

@@ -1,10 +1,12 @@
-package com.rasalexman.sticky.common
+package com.rasalexman.sticky.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelStoreOwner
+import com.rasalexman.sticky.common.StickyException
 import com.rasalexman.sticky.core.IStickyPresenter
 import com.rasalexman.sticky.core.IStickyView
 
@@ -59,5 +61,9 @@ abstract class BaseStickyFragment<P : IStickyPresenter<out IStickyView>> : Fragm
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         addListeners()
+    }
+
+    open fun getViewModelStoreOwner(): ViewModelStoreOwner {
+        return this
     }
 }

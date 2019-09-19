@@ -16,6 +16,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    private val currentNavHandler: INavigationHandler?
+        get() = mainHostFragment.childFragmentManager.primaryNavigationFragment as? INavigationHandler
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -29,19 +32,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val currentNavFragment = getCurrentNavHandler()
-        return (currentNavFragment?.onSupportNavigateUp() == false && mainHostFragment.findNavController().navigateUp())
+        return (currentNavHandler?.onSupportNavigateUp() == false && mainHostFragment.findNavController().navigateUp())
     }
 
     override fun onBackPressed() {
-        val currentNavFragment = getCurrentNavHandler()
-        if (currentNavFragment?.onBackPressed() == false) {
+        if (currentNavHandler?.onBackPressed() == false) {
             super.onBackPressed()
         }
     }
-
-    private fun getCurrentNavHandler(): INavigationHandler? {
-        return mainHostFragment.childFragmentManager.primaryNavigationFragment as? INavigationHandler
-    }
-
 }

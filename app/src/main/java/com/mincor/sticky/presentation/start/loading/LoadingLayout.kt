@@ -7,7 +7,7 @@ import com.mincor.kodi.core.IKodi
 import com.mincor.kodi.core.immutableInstance
 import com.mincor.sticky.R
 import com.mincor.sticky.common.YUI
-import com.rasalexman.sticky.common.BaseStickyFrameLayout
+import com.rasalexman.sticky.base.BaseStickyFrameLayout
 
 class LoadingLayout : BaseStickyFrameLayout<ILoadingContract.IPresenter>,
     ILoadingContract.IView, IKodi {

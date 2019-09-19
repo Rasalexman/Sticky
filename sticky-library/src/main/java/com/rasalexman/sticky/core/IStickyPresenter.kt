@@ -14,7 +14,7 @@ import kotlin.coroutines.suspendCoroutine
 interface IStickyPresenter<V : IStickyView> : LifecycleObserver {
 
     private val viewLifecycle: Lifecycle?
-        get() = unsafeView?.getLifecycle()
+        get() = unsafeView?.lifecycle
 
     private val isViewAvailable: AtomicBoolean
         get() = viewAvailableMap.getOrPut(this) { AtomicBoolean(true) }
@@ -41,11 +41,12 @@ interface IStickyPresenter<V : IStickyView> : LifecycleObserver {
         (view as? V)?.let { castedView ->
             unsafeView = castedView
             onViewAttached(castedView)
-            castedView.getLifecycle().addObserver(this)
+            castedView.lifecycle.addObserver(this)
         }
     }
 
     fun onViewAttached(view: V) = Unit
+    fun onViewDettached(view: V) = Unit
 
     @Synchronized
     suspend fun <V : IStickyView> IStickyPresenter<V>.view(): V {
@@ -100,8 +101,9 @@ interface IStickyPresenter<V : IStickyView> : LifecycleObserver {
 
     @Synchronized
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    open fun onViewDestroyed() {
+    private fun onViewDestroyed() {
         this.viewLifecycle?.removeObserver(this)
+        unsafeView?.let { onViewDettached(it) }
         unsafeView = null
         mustRestoreSticky = true
     }
@@ -159,7 +161,6 @@ interface IStickyPresenter<V : IStickyView> : LifecycleObserver {
         viewRestoreStickiesMap.remove(this)
         viewContinuationsMap.remove(this)?.clear()
         viewStickiesMap.remove(this)?.clear()
-
     }
 
     companion object {

@@ -1,4 +1,4 @@
-package com.rasalexman.sticky.common
+package com.rasalexman.sticky.base
 
 import android.content.Context
 import android.content.ContextWrapper
@@ -10,6 +10,7 @@ import android.widget.FrameLayout
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModelStoreOwner
 import com.rasalexman.sticky.core.IStickyPresenter
 import com.rasalexman.sticky.core.IStickyView
 
@@ -79,15 +80,22 @@ abstract class BaseStickyFrameLayout<P : IStickyPresenter<out IStickyView>> : Fr
      *
      */
     override fun getLifecycle(): Lifecycle {
-        return getLifecycleOwner().lifecycle
+        return getOwner<LifecycleOwner>().lifecycle
     }
 
     /**
      *
      */
-    protected open fun getLifecycleOwner(): LifecycleOwner {
+    open fun getViewModelStoreOwner(): ViewModelStoreOwner {
+        return getOwner()
+    }
+
+    /**
+     *
+     */
+    private inline fun<reified T> getOwner(): T {
         var context: Context = context
-        while (context !is LifecycleOwner) {
+        while (context !is T) {
             context = (context as ContextWrapper).baseContext
         }
         return context

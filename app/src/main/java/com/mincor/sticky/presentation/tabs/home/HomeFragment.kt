@@ -18,5 +18,4 @@ class HomeFragment : BaseFragment<IHomeContract.IPresenter>(),
 
     override val layoutId: Int
         get() = R.layout.fragment_home
-
 }
