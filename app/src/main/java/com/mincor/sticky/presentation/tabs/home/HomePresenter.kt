@@ -10,6 +10,7 @@ import com.mincor.sticky.navigation.tabNavigator
 import com.rasalexman.coroutinesmanager.ICoroutinesManager
 import com.rasalexman.coroutinesmanager.launchOnUITryCatch
 import com.rasalexman.sticky.common.viewModel
+import com.rasalexman.sticky.common.viewModelLazy
 
 class HomePresenter(
     coroutinesManager: ICoroutinesManager
@@ -21,12 +22,8 @@ class HomePresenter(
 
     override fun onViewAttached(view: IHomeContract.IView) = launchOnUITryCatch(
         tryBlock = {
-
-            val homeViewModel: HomeViewModel by view.viewModel()
-            homeViewModel.getHomeLiveData().observe(view, homeObserver)
-
             println("$YUI HELLO THIS IS A ${this@HomePresenter}")
-            view().showLoading()
+            view().viewModel<HomeViewModel>().getHomeLiveData().observe(view, homeObserver)
         }, catchBlock = {
             view().showToast(R.string.error_unexpected)
         }
@@ -45,6 +42,8 @@ class HomePresenter(
 
 
     override fun onViewDettached(view: IHomeContract.IView) {
+        val homeViewModel: HomeViewModel by view.viewModelLazy()
+        homeViewModel.getHomeLiveData().removeObserver(homeObserver)
         cleanup()
     }
 }

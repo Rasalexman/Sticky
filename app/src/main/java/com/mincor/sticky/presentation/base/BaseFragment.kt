@@ -1,5 +1,6 @@
 package com.mincor.sticky.presentation.base
 
+import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -46,10 +47,16 @@ abstract class BaseFragment<P : IStickyPresenter<out IStickyView>> : BaseStickyF
     }
 
     open fun showLoading() {
-        view?.findViewById<LinearLayout>(R.id.loadingLayout)?.show()
+        view?.run {
+            findViewById<ViewGroup>(R.id.contentLayout)?.hide()
+            findViewById<LinearLayout>(R.id.loadingLayout)?.show()
+        }
     }
     open fun hideLoading() {
-        view?.findViewById<LinearLayout>(R.id.loadingLayout)?.hide()
+        view?.run {
+            findViewById<LinearLayout>(R.id.loadingLayout)?.hide()
+            findViewById<ViewGroup>(R.id.contentLayout)?.show()
+        }
     }
 
     override fun onBackPressed(): Boolean {

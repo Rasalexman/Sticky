@@ -33,8 +33,7 @@ data class StartPresenter(
         }
     )
 
-    override fun onViewDestroyed() {
-        super.onViewDestroyed()
+    override fun onViewDettached(view: IStartContract.IStartView) {
         cleanup()
     }
 }
