@@ -1,5 +1,6 @@
 package com.mincor.sticky.presentation.base
 
+import android.app.Dialog
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -14,14 +15,17 @@ import com.rasalexman.sticky.core.IStickyView
 
 abstract class BaseFragment<P : IStickyPresenter<out IStickyView>> : BaseStickyFragment<P>(), INavigationHandler {
 
-    open fun showAlertDialog(message: Int, okTitle: Int = R.string.title_try_again, okHandler: UnitHandler? = null) {
+    private var alertDialog: Dialog? = null
+
+    open fun showAlertDialog(message: Any, okTitle: Int = R.string.title_try_again, okHandler: UnitHandler? = null) {
+
         context?.let { liveContext ->
             hideLoading()
+            closeAlertDialog()
 
-            AlertDialog
+            alertDialog = AlertDialog
                 .Builder(liveContext)
                 .setTitle(R.string.title_warning)
-                .setMessage(message)
                 .setCancelable(false)
                 .setPositiveButton(okTitle) { dialogInterface, _ ->
                     dialogInterface.dismiss()
@@ -29,20 +33,25 @@ abstract class BaseFragment<P : IStickyPresenter<out IStickyView>> : BaseStickyF
                 }
                 .setNegativeButton(R.string.title_cancel) { dialogInterface, _ ->
                     dialogInterface.dismiss()
-                }.show()
+                }.run {
+                    when(message) {
+                        is String -> setMessage(message)
+                        is Int -> setMessage(message)
+                        else -> setMessage(message.toString())
+                    }
+                    show()
+                }
         }
     }
 
-    open fun showToast(message: String, interval: Int = Toast.LENGTH_SHORT) {
+    open fun showToast(message: Any, interval: Int = Toast.LENGTH_SHORT) {
         context?.let { liveContext ->
             hideLoading()
-            Toast.makeText(liveContext, message, interval).show()
-        }
-    }
-    open fun showToast(messageResId: Int, interval: Int = Toast.LENGTH_SHORT) {
-        context?.let { liveContext ->
-            hideLoading()
-            Toast.makeText(liveContext, messageResId, interval).show()
+            when(message) {
+                is String -> Toast.makeText(liveContext, message, interval).show()
+                is Int -> Toast.makeText(liveContext, message, interval).show()
+                else -> Toast.makeText(liveContext, message.toString(), interval).show()
+            }
         }
     }
 
@@ -70,4 +79,14 @@ abstract class BaseFragment<P : IStickyPresenter<out IStickyView>> : BaseStickyF
 
     override val currentNavHandler: INavigationHandler?
         get() = this
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        closeAlertDialog()
+    }
+
+    private fun closeAlertDialog() {
+        alertDialog?.dismiss()
+        alertDialog = null
+    }
 }

@@ -9,6 +9,7 @@ import com.mincor.sticky.data.local.isRegistered
 import com.mincor.sticky.navigation.mainNavigator
 import com.rasalexman.coroutinesmanager.ICoroutinesManager
 import com.rasalexman.coroutinesmanager.launchOnUITryCatch
+import kotlinx.coroutines.delay
 
 data class StartPresenter(
     private val userAccount: IUserAccount
@@ -20,8 +21,10 @@ data class StartPresenter(
         tryBlock = {
             println("$YUI HELLO THIS IS A START PRESENTER with navigator $mainNavigator")
 
+            view().showLoading()
+            delay(2000L)
+
             view().singleSticky {
-                showLoading()
                 if(userAccount.isRegistered()) {
                     mainNavigator.navigate(R.id.action_startFragment_to_tabFragment)
                 } else {
@@ -33,7 +36,7 @@ data class StartPresenter(
         }
     )
 
-    override fun onViewDettached(view: IStartContract.IStartView) {
+    override fun onViewDetached(view: IStartContract.IStartView) {
         cleanup()
     }
 }

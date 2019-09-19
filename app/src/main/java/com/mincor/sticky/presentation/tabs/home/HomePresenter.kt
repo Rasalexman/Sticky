@@ -9,15 +9,11 @@ import com.mincor.sticky.common.YUI
 import com.mincor.sticky.navigation.tabNavigator
 import com.rasalexman.coroutinesmanager.ICoroutinesManager
 import com.rasalexman.coroutinesmanager.launchOnUITryCatch
-import com.rasalexman.sticky.common.StickyAvailable
 import com.rasalexman.sticky.common.viewModelLazy
 
 class HomePresenter(
     coroutinesManager: ICoroutinesManager
 ) : IHomeContract.IPresenter, IKodi, ICoroutinesManager by coroutinesManager {
-
-    override val viewAvailableState: StickyAvailable
-        get() = StickyAvailable.StateCreated
 
     private val tabNavigator: NavController by tabNavigator()
 
@@ -45,7 +41,7 @@ class HomePresenter(
         })
 
 
-    override fun onViewDettached(view: IHomeContract.IView) {
+    override fun onViewDetached(view: IHomeContract.IView) {
         val homeViewModel: HomeViewModel by view.viewModelLazy()
         homeViewModel.getHomeLiveData().removeObserver(homeObserver)
         cleanup()

@@ -40,7 +40,7 @@ class SearchPresenter(
         }
     )
 
-    override fun onViewDettached(view: ISearchContract.IView) {
+    override fun onViewDetached(view: ISearchContract.IView) {
         searchViewModel.getSearchLiveData().removeObserver(searchObserver)
     }
 }

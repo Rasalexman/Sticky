@@ -34,8 +34,8 @@ buildscript {
         TARGET_VERSION = 29
         BUILD_TOOLS = "29.0.0"
 
-        stickyLibVersion = "1.0.4"
-        stickyLibCode = 10004
+        stickyLibVersion = "1.0.5"
+        stickyLibCode = 10005
 
         appCompatXVersion = '1.1.0'
         appCoreXVersion = '1.1.0'

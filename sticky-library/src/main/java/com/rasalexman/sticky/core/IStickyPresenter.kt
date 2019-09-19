@@ -3,7 +3,6 @@ package com.rasalexman.sticky.core
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
-import com.rasalexman.sticky.common.StickyAvailable
 import com.rasalexman.sticky.core.sticky.*
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.coroutines.CoroutineContext
@@ -18,7 +17,7 @@ interface IStickyPresenter<V : IStickyView> : LifecycleObserver {
         get() = unsafeView?.lifecycle
 
     private val isViewAvailable: AtomicBoolean
-        get() = viewAvailableMap.getOrPut(this) { AtomicBoolean(true) }
+        get() = viewAvailableMap.getOrPut(this) { AtomicBoolean(false) }
 
     private val viewContinuations: ViewContinuationsList<V>
         get() = viewContinuationsMap.getOrPut(this) { mutableListOf() } as ViewContinuationsList<V>
@@ -26,20 +25,17 @@ interface IStickyPresenter<V : IStickyView> : LifecycleObserver {
     private val stickyList: ViewStickyList<V>
         get() = viewStickiesMap.getOrPut(this) { mutableListOf() } as ViewStickyList<V>
 
-    private var unsafeView: V?
-        get() = viewLifecyclerMap[this] as? V
-        set(value) {
-            viewLifecyclerMap[this] = value
-        }
-
     private var mustRestoreSticky: Boolean
         get() = viewRestoreStickiesMap.getOrPut(this) { false }
         set(value) {
             viewRestoreStickiesMap[this] = value
         }
 
-    val viewAvailableState: StickyAvailable
-        get() = StickyAvailable.StateResumed
+    var unsafeView: V?
+        get() = viewLifecyclerMap[this] as? V
+        set(value) {
+            viewLifecyclerMap[this] = value
+        }
 
     fun attach(view: IStickyView) {
         (view as? V)?.let { castedView ->
@@ -50,7 +46,7 @@ interface IStickyPresenter<V : IStickyView> : LifecycleObserver {
     }
 
     fun onViewAttached(view: V) = Unit
-    fun onViewDettached(view: V) = Unit
+    fun onViewDetached(view: V) = Unit
 
     @Synchronized
     suspend fun <V : IStickyView> IStickyPresenter<V>.view(): V {
@@ -63,44 +59,26 @@ interface IStickyPresenter<V : IStickyView> : LifecycleObserver {
 
     @Synchronized
     @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
-    private fun onViewStateChanged() {
-        val isViewReady = viewLifecycle?.currentState?.isAtLeast(viewAvailableState.state) ?: false
+    fun onViewStateChanged() {
+        val isViewReady = viewLifecycle?.currentState?.isAtLeast(Lifecycle.State.RESUMED) ?: false
         isViewAvailable.set(isViewReady)
     }
 
     @Synchronized
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    private fun onViewResumedForContinuations() {
-        if(viewAvailableState is StickyAvailable.StateResumed) {
-            this.unsafeView?.let(::continueWithView)
+    fun onViewResumedForContinuations() {
+        runContinuationsWithView()
+    }
+
+    private fun runContinuationsWithView() {
+        val viewInstance = this.unsafeView
+        viewInstance?.run {
+            iterateWithViewContinuations(this)
+            iterateWithStickyContinuations(this)
         }
     }
 
-    @Synchronized
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    private fun onViewResumedForStickyContinuations() {
-        if(viewAvailableState is StickyAvailable.StateResumed) {
-            this.unsafeView?.let(::continueWithSticky)
-        }
-    }
-
-    @Synchronized
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    private fun onViewCreatedForContinuations() {
-        if(viewAvailableState is StickyAvailable.StateCreated) {
-            this.unsafeView?.let(::continueWithView)
-        }
-    }
-
-    @Synchronized
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    private fun onViewCreatedForStickyContinuations() {
-        if(viewAvailableState is StickyAvailable.StateCreated) {
-            this.unsafeView?.let(::continueWithSticky)
-        }
-    }
-
-    private fun continueWithView(viewInstance: V) {
+    private fun iterateWithViewContinuations(viewInstance: V) {
         val viewContinuationsIterator = viewContinuations.listIterator()
         while (viewContinuationsIterator.hasNext()) {
             val continuation = viewContinuationsIterator.next()
@@ -109,17 +87,19 @@ interface IStickyPresenter<V : IStickyView> : LifecycleObserver {
             // but now it's ready again so the presenter can continue
             // interacting with it.
             viewContinuationsIterator.remove()
+            println("-------> iterateWithViewContinuations")
             continuation.resume(viewInstance)
         }
     }
 
-    private fun continueWithSticky(viewInstance: V) {
+    private fun iterateWithStickyContinuations(viewInstance: V) {
         if (mustRestoreSticky) {
             mustRestoreSticky = false
 
             val stickiesIterator = stickyList.listIterator()
             while (stickiesIterator.hasNext()) {
                 val sticky = stickiesIterator.next()
+                println("-------> iterateWithStickyContinuations")
                 sticky.resume(viewInstance)
             }
         }
@@ -127,9 +107,9 @@ interface IStickyPresenter<V : IStickyView> : LifecycleObserver {
 
     @Synchronized
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    private fun onViewDestroyed() {
+    fun onViewDestroyed() {
         this.viewLifecycle?.removeObserver(this)
-        unsafeView?.let { onViewDettached(it) }
+        unsafeView?.let { onViewDetached(it) }
         unsafeView = null
         mustRestoreSticky = true
     }
