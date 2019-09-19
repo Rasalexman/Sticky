@@ -14,7 +14,7 @@ class HomeFragment : BaseFragment<IHomeContract.IPresenter>(),
     IHomeContract.IView, IKodi {
 
     override val presenter: IHomeContract.IPresenter
-            get() = HomePresenter(instance())
+        get() = HomePresenter(instance())
 
     override val layoutId: Int
         get() = R.layout.fragment_home

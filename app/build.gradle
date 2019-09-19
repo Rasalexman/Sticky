@@ -54,7 +54,7 @@ dependencies {
     implementation project(":sticky-library")
     implementation "com.rasalexman.kodi:kodi:$kodiVersion"
 
-    //implementation "com.rasalexman.sticky:sticky:1.0.2"
+    //implementation "com.rasalexman.sticky:sticky:$stickyLibVersion"
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
