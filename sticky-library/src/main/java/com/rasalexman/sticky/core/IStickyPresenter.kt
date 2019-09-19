@@ -3,6 +3,7 @@ package com.rasalexman.sticky.core
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
+import com.rasalexman.sticky.common.StickyAvailable
 import com.rasalexman.sticky.core.sticky.*
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.coroutines.CoroutineContext
@@ -37,6 +38,9 @@ interface IStickyPresenter<V : IStickyView> : LifecycleObserver {
             viewRestoreStickiesMap[this] = value
         }
 
+    val viewAvailableState: StickyAvailable
+        get() = StickyAvailable.StateResumed
+
     fun attach(view: IStickyView) {
         (view as? V)?.let { castedView ->
             unsafeView = castedView
@@ -60,41 +64,63 @@ interface IStickyPresenter<V : IStickyView> : LifecycleObserver {
     @Synchronized
     @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
     private fun onViewStateChanged() {
-        val isViewReady = viewLifecycle?.currentState?.isAtLeast(Lifecycle.State.RESUMED) ?: false
+        val isViewReady = viewLifecycle?.currentState?.isAtLeast(viewAvailableState.state) ?: false
         isViewAvailable.set(isViewReady)
     }
 
     @Synchronized
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    private fun onViewReadyForContinuations() {
-        val viewInstance = this.unsafeView
-        if (viewInstance != null) {
-            val viewContinuationsIterator = viewContinuations.listIterator()
-            while (viewContinuationsIterator.hasNext()) {
-                val continuation = viewContinuationsIterator.next()
-
-                // The unsafeView was not ready when the presenter needed it earlier,
-                // but now it's ready again so the presenter can continue
-                // interacting with it.
-                viewContinuationsIterator.remove()
-                continuation.resume(viewInstance)
-            }
+    private fun onViewResumedForContinuations() {
+        if(viewAvailableState is StickyAvailable.StateResumed) {
+            this.unsafeView?.let(::continueWithView)
         }
     }
 
     @Synchronized
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    private fun onViewReadyForStickyContinuations() {
-        val viewInstance = this.unsafeView
-        if (viewInstance != null) {
-            if (mustRestoreSticky) {
-                mustRestoreSticky = false
+    private fun onViewResumedForStickyContinuations() {
+        if(viewAvailableState is StickyAvailable.StateResumed) {
+            this.unsafeView?.let(::continueWithSticky)
+        }
+    }
 
-                val stickiesIterator = stickyList.listIterator()
-                while (stickiesIterator.hasNext()) {
-                    val sticky = stickiesIterator.next()
-                    sticky.resume(viewInstance)
-                }
+    @Synchronized
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    private fun onViewCreatedForContinuations() {
+        if(viewAvailableState is StickyAvailable.StateCreated) {
+            this.unsafeView?.let(::continueWithView)
+        }
+    }
+
+    @Synchronized
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    private fun onViewCreatedForStickyContinuations() {
+        if(viewAvailableState is StickyAvailable.StateCreated) {
+            this.unsafeView?.let(::continueWithSticky)
+        }
+    }
+
+    private fun continueWithView(viewInstance: V) {
+        val viewContinuationsIterator = viewContinuations.listIterator()
+        while (viewContinuationsIterator.hasNext()) {
+            val continuation = viewContinuationsIterator.next()
+
+            // The unsafeView was not ready when the presenter needed it earlier,
+            // but now it's ready again so the presenter can continue
+            // interacting with it.
+            viewContinuationsIterator.remove()
+            continuation.resume(viewInstance)
+        }
+    }
+
+    private fun continueWithSticky(viewInstance: V) {
+        if (mustRestoreSticky) {
+            mustRestoreSticky = false
+
+            val stickiesIterator = stickyList.listIterator()
+            while (stickiesIterator.hasNext()) {
+                val sticky = stickiesIterator.next()
+                sticky.resume(viewInstance)
             }
         }
     }
