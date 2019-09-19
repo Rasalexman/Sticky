@@ -11,11 +11,14 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelStoreOwner
+import com.rasalexman.sticky.common.StickyException
 import com.rasalexman.sticky.core.IStickyPresenter
 import com.rasalexman.sticky.core.IStickyView
 
 @Suppress("UNCHECKED_CAST")
 abstract class BaseStickyFrameLayout<P : IStickyPresenter<out IStickyView>> : FrameLayout, LifecycleOwner {
+
+    open val safeView: Boolean = false
 
     /**
      *
@@ -68,6 +71,8 @@ abstract class BaseStickyFrameLayout<P : IStickyPresenter<out IStickyView>> : Fr
         super.onFinishInflate()
         if(this is IStickyView) {
             presenter.attach(this)
+        } else if(!safeView) {
+            throw StickyException.StickyCastException()
         }
     }
 

@@ -37,7 +37,7 @@ abstract class BaseStickyFragment<P : IStickyPresenter<out IStickyView>> : Fragm
         super.onCreate(savedInstanceState)
         if(this is IStickyView) {
             presenter.attach(this)
-        } else if(safeFragment) {
+        } else if(!safeFragment) {
             throw StickyException.StickyCastException()
         }
     }
