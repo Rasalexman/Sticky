@@ -18,7 +18,7 @@ class SearchPresenter(
     private val tabNavigator: NavController by tabNavigator()
     private val searchObserver = Observer(::searchLiveDataReducer)
 
-    override fun onViewAttached(view: ISearchContract.IView) = launchOnUITryCatch(
+    override fun onViewCreated(view: ISearchContract.IView) = launchOnUITryCatch(
         tryBlock = {
             println("$YUI HELLO THIS IS A SearchPresenter")
             searchViewModel.getSearchLiveData().observe(view(), searchObserver)
@@ -40,7 +40,7 @@ class SearchPresenter(
         }
     )
 
-    override fun onViewDetached(view: ISearchContract.IView) {
+    override fun onViewDestroyed(view: ISearchContract.IView) {
         searchViewModel.getSearchLiveData().removeObserver(searchObserver)
     }
 }

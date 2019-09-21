@@ -19,7 +19,7 @@ class SignUpPresenter(
     private val navigatorController: NavController by onboardingNavigator()
     private val mainNavigator: NavController by mainNavigator()
 
-    override fun onViewAttached(view: ISignUpContract.IView) {
+    override fun onViewCreated(view: ISignUpContract.IView) {
         println("$YUI HELLO FROM SignUpPresenter")
     }
 

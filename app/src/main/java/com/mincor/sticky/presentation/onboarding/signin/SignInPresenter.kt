@@ -22,8 +22,8 @@ class SignInPresenter(
 
     private var valueFromSuspend = 0
 
-    override fun onViewAttached(view: ISignInContract.IView) {
-        println("$YUI onViewAttached in SignInPresenter")
+    override fun onViewCreated(view: ISignInContract.IView) {
+        println("$YUI onViewCreated in SignInPresenter")
     }
 
     override fun onSignInClicked(email: String, password: String) = launchOnUITryCatch(

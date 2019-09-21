@@ -10,7 +10,7 @@ class OnboardingPresenter(
     coroutinesManager: ICoroutinesManager
 ) : IOnboardingContract.IPresenter, ICoroutinesManager by coroutinesManager {
 
-    override fun onViewAttached(view: IOnboardingContract.IView) = launchOnUITryCatch(
+    override fun onViewCreated(view: IOnboardingContract.IView) = launchOnUITryCatch(
         tryBlock = {
             println("$YUI HELLO THIS IS A OnboardingPresenter")
         }, catchBlock = {

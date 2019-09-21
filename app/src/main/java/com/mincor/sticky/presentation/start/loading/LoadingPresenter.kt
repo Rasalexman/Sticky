@@ -5,7 +5,7 @@ import com.mincor.sticky.common.YUI
 
 class LoadingPresenter : ILoadingContract.IPresenter, IKodi {
 
-    override fun onViewAttached(view: ILoadingContract.IView) {
+    override fun onViewCreated(view: ILoadingContract.IView) {
         println("$YUI HELLO FROM LoadingPresenter")
     }
 }

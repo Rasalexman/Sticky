@@ -14,7 +14,7 @@ class ProfilePresenter(
 
     private val tabNavigator: NavController by tabNavigator()
 
-    override fun onViewAttached(view: IProfileContract.IView) = launchOnUITryCatch(
+    override fun onViewCreated(view: IProfileContract.IView) = launchOnUITryCatch(
         tryBlock = {
             println("$YUI HELLO THIS IS A ProfilePresenter")
             view().showLoading()
