@@ -9,7 +9,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.0'
+        classpath 'com.android.tools.build:gradle:3.5.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // The Gradle Bintray Plugin allows you to publish artifacts to Bintray.
@@ -34,8 +34,8 @@ buildscript {
         TARGET_VERSION = 29
         BUILD_TOOLS = "29.0.0"
 
-        stickyLibVersion = "1.0.6"
-        stickyLibCode = 10006
+        stickyLibVersion = "1.0.7"
+        stickyLibCode = 10007
 
         appCompatXVersion = '1.1.0'
         appCoreXVersion = '1.1.0'

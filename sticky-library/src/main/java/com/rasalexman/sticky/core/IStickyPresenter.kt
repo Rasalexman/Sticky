@@ -71,20 +71,39 @@ interface IStickyPresenter<V : IStickyView> : LifecycleObserver {
         get() = viewStickiesMap.getOrPut(this) { mutableListOf() } as ViewStickyList<V>
 
     /**
+     *
+     */
+    fun onFirstAttach(view: IStickyView) {
+        (view as? V)?.let { castedView ->
+            saveCastedView(castedView)
+            onViewCreated(castedView)
+        }
+    }
+
+    /**
      * Attach base [IStickyView] instance and start to observe lifecycle events
      */
-    fun attach(view: IStickyView) {
+    fun onAttach(view: IStickyView) {
         (view as? V)?.let { castedView ->
-            viewLifecyclerMap[this] = castedView
-            onViewCreated(castedView)
-            castedView.lifecycle.addObserver(this)
+            saveCastedView(castedView)
+            onViewAttached(castedView)
         }
+    }
+
+    private fun saveCastedView(view: V) {
+        viewLifecyclerMap[this] = view
+        view.lifecycle.addObserver(this)
     }
 
     /**
      * On [IStickyView] was created and casted to [unsafeView]
      */
     fun onViewCreated(view: V) = Unit
+
+    /**
+     *
+     */
+    fun onViewAttached(view: V) = Unit
 
     /**
      * On [IStickyView] was destroyed (Fragment, View or custom class)

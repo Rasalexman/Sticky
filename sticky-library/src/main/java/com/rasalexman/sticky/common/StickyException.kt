@@ -21,7 +21,7 @@ sealed class StickyException(message: String?) : RuntimeException(message) {
     /**
      * When your base Fragment does not implement [IStickyView]
      */
-    class StickyCastException : StickyException("Base Fragment does not implement interface IStickyView")
+    class StickyCastException : StickyException("Base Fragment does not implement interface IStickyFragment")
 
     /**
      *  Critical Error

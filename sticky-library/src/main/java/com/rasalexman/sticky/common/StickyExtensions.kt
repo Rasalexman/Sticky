@@ -23,7 +23,7 @@ import com.rasalexman.sticky.core.sticky.ISticky
  * Get lazy [ViewModel] from [IStickyViewOwner]
  * @param factoryProducer noinline lambda need to return [ViewModelProvider.Factory]
  */
-inline fun <reified VM : ViewModel> IStickyViewOwner.viewModelLazy(noinline factoryProducer: (() -> ViewModelProvider.Factory)? = null): Lazy<VM> = lazy {
+inline fun <reified VM : ViewModel> IStickyView.viewModelLazy(noinline factoryProducer: (() -> ViewModelProvider.Factory)? = null): Lazy<VM> = lazy {
     this.viewModel<VM>(factoryProducer)
 }
 
@@ -31,7 +31,7 @@ inline fun <reified VM : ViewModel> IStickyViewOwner.viewModelLazy(noinline fact
  * Get [ViewModel] from [IStickyViewOwner]
  * @param factoryProducer noinline lambda need to return [ViewModelProvider.Factory]
  */
-inline fun <reified VM : ViewModel> IStickyViewOwner.viewModel(noinline factoryProducer: (() -> ViewModelProvider.Factory)? = null): VM {
+inline fun <reified VM : ViewModel> IStickyView.viewModel(noinline factoryProducer: (() -> ViewModelProvider.Factory)? = null): VM {
     val factory = factoryProducer?.invoke() ?: object : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             return modelClass.newInstance()

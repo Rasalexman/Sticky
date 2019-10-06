@@ -14,8 +14,14 @@
 package com.rasalexman.sticky.core
 
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModelStoreOwner
 
 /**
  * Base interface to communicate with [IStickyPresenter]
  */
-interface IStickyView : LifecycleOwner
+interface IStickyView : LifecycleOwner {
+    /**
+     * Get base [ViewModelStoreOwner]
+     */
+    fun getViewModelStoreOwner(): ViewModelStoreOwner
+}

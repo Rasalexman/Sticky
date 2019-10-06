@@ -13,14 +13,50 @@
 // THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 package com.rasalexman.sticky.core
 
-import androidx.lifecycle.ViewModelStoreOwner
+import android.os.Bundle
+import androidx.annotation.LayoutRes
 
 /**
  * Interface to take viewModel into [IStickyPresenter]
  */
-interface IStickyViewOwner : IStickyView {
+interface IStickyViewOwner<P : IStickyPresenter<out IStickyView>> : IStickyView {
+
     /**
-     * Get base [ViewModelStoreOwner]
+     * Flag that say is this a safe fragment without binding of [IStickyView]
      */
-    fun getViewModelStoreOwner(): ViewModelStoreOwner
+    val isSafe: Boolean
+        get() = false
+
+    /**
+     * [IStickyPresenter] instance
+     */
+    val presenter: P
+
+    /**
+     * Layout Resource Id [LayoutRes]
+     */
+    val layoutId: Int
+
+    /**
+     * on create instance we attach presenter only in does not restore his view
+     * Just simple onFirstAttach
+     * @param savedInstanceState
+     */
+    fun create(savedInstanceState: Bundle?) {
+        if (savedInstanceState == null) {
+            presenter.onFirstAttach(this)
+        }
+    }
+
+    /**
+     * Attach presenter every time when view is ready
+     */
+    fun attach() {
+        presenter.onAttach(this)
+    }
+
+    /**
+     * Helper function to add view listeners HERE
+     */
+    fun addListeners() = Unit
 }

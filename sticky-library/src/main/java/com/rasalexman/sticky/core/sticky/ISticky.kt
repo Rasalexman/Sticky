@@ -50,15 +50,20 @@ interface ISticky<V : IStickyView> : Continuation<V> {
     /**
      * Check sticky state with strategies
      */
-    fun<V : IStickyView> ISticky<V>.checkState() {
+    fun <V : IStickyView> ISticky<V>.checkState() {
         when (val localStrategy = this.stickyStrategy) {
-            is StickyStrategy.Single -> removerCallback?.invoke(this).also { clear() }
-            is StickyStrategy.Counter -> {
-                ++counter
-                val maxCountOfExecution = localStrategy.maxExecutionCounter
-                if(maxCountOfExecution == counter) {
+            is StickyStrategy.Single -> {
+                if (counter == 1u) {
                     clear()
                 }
+                counter++
+            }
+            is StickyStrategy.Counter -> {
+                val maxCountOfExecution = localStrategy.maxExecutionCounter
+                if (maxCountOfExecution == counter) {
+                    clear()
+                }
+                counter++
             }
             is StickyStrategy.Many -> Unit
         }

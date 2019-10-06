@@ -17,32 +17,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelStoreOwner
-import com.rasalexman.sticky.common.StickyException
 import com.rasalexman.sticky.core.IStickyPresenter
 import com.rasalexman.sticky.core.IStickyView
+import com.rasalexman.sticky.core.IStickyViewOwner
 
 /**
  * Base Sticky Fragment
  */
-abstract class BaseStickyFragment<P : IStickyPresenter<out IStickyView>> : Fragment() {
-
-    /**
-     * Is this fragment can be used without [IStickyView]
-     */
-    open val safeFragment: Boolean = false
-
-    /**
-     * [IStickyPresenter] instance
-     */
-    abstract val presenter: P
-
-    /**
-     * Layout Resource Id [LayoutRes]
-     */
-    abstract val layoutId: Int
+abstract class StickyFragment<P : IStickyPresenter<out IStickyView>> : Fragment(), IStickyViewOwner<P> {
 
     /**
      * on create current fragment
@@ -50,23 +34,15 @@ abstract class BaseStickyFragment<P : IStickyPresenter<out IStickyView>> : Fragm
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if(this is IStickyView) {
-            presenter.attach(this)
-        } else if(!safeFragment) {
-            throw StickyException.StickyCastException()
-        }
+        create(savedInstanceState)
     }
-
-    /**
-     * Helper function to add view listeners HERE
-     */
-    open fun addListeners() = Unit
 
     /**
      * when need to create view
      */
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(layoutId, container, false)
 
@@ -75,13 +51,14 @@ abstract class BaseStickyFragment<P : IStickyPresenter<out IStickyView>> : Fragm
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        attach()
         addListeners()
     }
 
     /**
      * get [ViewModelStoreOwner]
      */
-    open fun getViewModelStoreOwner(): ViewModelStoreOwner {
+    override fun getViewModelStoreOwner(): ViewModelStoreOwner {
         return this
     }
 }

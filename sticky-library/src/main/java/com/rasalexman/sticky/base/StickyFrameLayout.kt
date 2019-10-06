@@ -13,6 +13,7 @@
 // THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 package com.rasalexman.sticky.base
 
+import android.app.Application
 import android.content.Context
 import android.content.ContextWrapper
 import android.os.Build
@@ -20,34 +21,20 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
-import androidx.annotation.LayoutRes
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelStoreOwner
-import com.rasalexman.sticky.common.StickyException
 import com.rasalexman.sticky.core.IStickyPresenter
 import com.rasalexman.sticky.core.IStickyView
+import com.rasalexman.sticky.core.IStickyViewOwner
+
 
 /**
  * Base sticky frame layout
  */
-abstract class BaseStickyFrameLayout<P : IStickyPresenter<out IStickyView>> : FrameLayout, LifecycleOwner {
-
-    /**
-     * Flag that say is this a safe fragment without binding of [IStickyView]
-     */
-    open val safeView: Boolean = false
-
-    /**
-     * [IStickyPresenter] instance
-     */
-    abstract val presenter: P
-
-    /**
-     * Layout Resource Id [LayoutRes]
-     */
-    abstract val layoutId: Int
+abstract class StickyFrameLayout<P : IStickyPresenter<out IStickyView>> : FrameLayout,
+    LifecycleOwner, IStickyViewOwner<P> , Application.ActivityLifecycleCallbacks{
 
     /**
      * Primary constructor
@@ -107,15 +94,20 @@ abstract class BaseStickyFrameLayout<P : IStickyPresenter<out IStickyView>> : Fr
     }
 
     /**
-     * onFinishInflate layout
+     * When finish inflate view attach presenter to the view
+     * Note: This is called every time when view is destroyed
      */
     override fun onFinishInflate() {
         super.onFinishInflate()
-        if(this is IStickyView) {
-            presenter.attach(this)
-        } else if(!safeView) {
-            throw StickyException.StickyCastException()
-        }
+        create(savedInstanceState = null)
+    }
+
+    /**
+     * On view attach to window we attach presenter too
+     */
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        attach()
     }
 
     /**
@@ -133,7 +125,7 @@ abstract class BaseStickyFrameLayout<P : IStickyPresenter<out IStickyView>> : Fr
     /**
      *  get [ViewModelStoreOwner]
      */
-    open fun getViewModelStoreOwner(): ViewModelStoreOwner {
+    override fun getViewModelStoreOwner(): ViewModelStoreOwner {
         return getOwner()
     }
 
