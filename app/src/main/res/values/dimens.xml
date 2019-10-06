@@ -14,4 +14,6 @@
     <dimen name="size_32dp">32dp</dimen>
     <dimen name="size_36dp">36dp</dimen>
     <dimen name="size_64dp">64dp</dimen>
+
+    <dimen name="width_min_dialog">240dp</dimen>
 </resources>

@@ -6,6 +6,8 @@ import com.chibatching.kotpref.Kotpref
 import com.mincor.kodi.core.*
 import com.mincor.sticky.data.local.IUserAccount
 import com.mincor.sticky.data.local.UserAccount
+import com.mincor.sticky.presentation.start.loading.ILoadingContract
+import com.mincor.sticky.presentation.start.loading.LoadingPresenter
 import com.rasalexman.coroutinesmanager.CoroutinesManager
 import com.rasalexman.coroutinesmanager.ICoroutinesManager
 
@@ -17,6 +19,8 @@ class MainApplication : Application() {
         bind<ICoroutinesManager>()          with single { CoroutinesManager() }
 
         bind<IUserAccount>()                with single { UserAccount(instance()) }
+
+        bind<ILoadingContract.IPresenter>() with single { LoadingPresenter() }
     }
 
 

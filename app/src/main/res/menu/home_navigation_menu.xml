@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/homeSettingsFragment"
+        android:title="@string/title_menu_home_settings" />
+
+    <item android:id="@+id/filterDialogFragment"
+        android:title="@string/title_menu_home_filters"/>
+
+</menu>

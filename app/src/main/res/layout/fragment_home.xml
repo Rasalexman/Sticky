@@ -20,6 +20,7 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
+        app:menu="@menu/home_navigation_menu"
         android:layout_gravity="top"/>
 
 </FrameLayout>

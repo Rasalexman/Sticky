@@ -2,9 +2,9 @@ package com.mincor.sticky.presentation.base
 
 import com.mincor.sticky.R
 import com.mincor.sticky.common.UnitHandler
-import com.rasalexman.sticky.core.IStickyViewOwner
+import com.rasalexman.sticky.core.IStickyView
 
-interface IBaseStickyView : IStickyViewOwner {
+interface IBaseStickyView : IStickyView {
     fun showAlertDialog(message: Any, okTitle: Int = R.string.title_try_again, okHandler: UnitHandler? = null)
     fun showToast(message: Any, interval: Int = 0)
 

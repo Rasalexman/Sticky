@@ -11,6 +11,7 @@ import com.rasalexman.coroutinesmanager.ICoroutinesManager
 import com.rasalexman.coroutinesmanager.launchOnUITryCatch
 import com.rasalexman.sticky.common.viewModel
 import com.rasalexman.sticky.common.viewModelLazy
+import com.rasalexman.sticky.core.IStickyView
 
 class HomePresenter(
     coroutinesManager: ICoroutinesManager
@@ -20,7 +21,7 @@ class HomePresenter(
 
     private val homeObserver = Observer(::homeViewModelReducer)
 
-    override fun onViewCreated(view: IHomeContract.IView) = launchOnUITryCatch(
+    override fun onFirstAttach(view: IStickyView) = launchOnUITryCatch(
         tryBlock = {
             println("$YUI HELLO THIS IS A ${this@HomePresenter}")
             view().viewModel<HomeViewModel>().getHomeLiveData().observe(view, homeObserver)
@@ -31,7 +32,7 @@ class HomePresenter(
 
     private fun homeViewModelReducer(result: SResult<List<HomeUiModel>>) = launchOnUITryCatch(
         tryBlock = {
-            when(result) {
+            when (result) {
                 is SResult.Loading -> view().showLoading()
                 //is SResult.Success -> showItems(result.data)
                 is SResult.Error -> view().showToast(result.message)

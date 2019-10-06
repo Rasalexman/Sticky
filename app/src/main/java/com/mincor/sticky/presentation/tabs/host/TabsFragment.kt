@@ -11,6 +11,8 @@ import com.mincor.sticky.navigation.Navigators.TAB_NAVIGATOR
 import com.mincor.sticky.presentation.base.BaseHostFragment
 import com.mincor.sticky.presentation.tabs.home.HomePresenter
 import com.mincor.sticky.presentation.tabs.home.IHomeContract
+import com.mincor.sticky.presentation.tabs.home.homesettings.HomeSettingsContract
+import com.mincor.sticky.presentation.tabs.home.homesettings.HomeSettingsPresenter
 import com.mincor.sticky.presentation.tabs.profile.IProfileContract
 import com.mincor.sticky.presentation.tabs.profile.ProfilePresenter
 import com.mincor.sticky.presentation.tabs.search.ISearchContract
@@ -57,6 +59,8 @@ class TabsFragment : BaseHostFragment<ITabsContract.IPresenter>(),
             bind<IHomeContract.IPresenter>()        with single { HomePresenter(instance()) }
             bind<IProfileContract.IPresenter>()     with single { ProfilePresenter(instance()) }
             bind<ISearchContract.IPresenter>()      with single { SearchPresenter(instance(), instance()) }
+
+            bind<HomeSettingsContract.IPresenter>() with provider { HomeSettingsPresenter() }
         } withScope TAB_NAVIGATOR.asScope()
     }
 }

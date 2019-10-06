@@ -16,12 +16,23 @@
     <string name="title_password_hint">Enter password</string>
     <string name="title_password_repeate_hint">Repeate password</string>
 
-
+    <string name="title_apply">Apply</string>
     <string name="title_cancel">Cancel</string>
     <string name="title_ok">OK</string>
     <string name="title_back">Back</string>
     <string name="title_try_again">Try again</string>
     <string name="title_go_to_sign_up">Sign Up</string>
+
+    <string name="title_filters">Filters</string>
+    <string name="desc_filters">Choose one or many filters to apply with current home screen</string>
+
+    <string name="filters_near">Near usage</string>
+    <string name="filters_offline_mode">Offline mode</string>
+    <string name="filters_additional_settings">Additional Settings</string>
+
+    <string name="filter_filter_radio_one">One</string>
+    <string name="filter_filter_radio_two">Two</string>
+    <string name="filter_filter_radio_three">Three</string>
 
     <string name="title_warning">Warning</string>
     <string name="error_user_password_incorrect">User password is incorrect or you trying to enter into another account</string>
@@ -34,9 +45,13 @@
     <string name="error_unexpected">Sorry. Somethings goes wrong. Please try later.</string>
     <string name="error_reducer_unexpected">Sorry. Somethings goes wrong with reducer call.</string>
 
+    <string name="title_menu_home_settings">Settings</string>
+    <string name="title_menu_home_filters">Filters</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_home_fragment">HOME FRAGMENT</string>
+    <string name="title_home_settings_fragment">HOME SETTINGS</string>
     <string name="title_search_fragment">SEARCH FRAGMENT</string>
     <string name="title_profile_fragment">PROFILE FRAGMENT</string>
 </resources>

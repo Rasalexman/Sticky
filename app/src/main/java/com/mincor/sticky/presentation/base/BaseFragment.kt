@@ -1,21 +1,51 @@
 package com.mincor.sticky.presentation.base
 
 import android.app.Dialog
+import android.os.Bundle
+import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import com.mincor.sticky.R
 import com.mincor.sticky.common.UnitHandler
 import com.mincor.sticky.common.hide
 import com.mincor.sticky.common.show
-import com.rasalexman.sticky.base.BaseStickyFragment
+import com.rasalexman.sticky.base.StickyFragment
 import com.rasalexman.sticky.core.IStickyPresenter
 import com.rasalexman.sticky.core.IStickyView
 
-abstract class BaseFragment<P : IStickyPresenter<out IStickyView>> : BaseStickyFragment<P>(), INavigationHandler {
+abstract class BaseFragment<P : IStickyPresenter<out IStickyView>> : StickyFragment<P>(), INavigationHandler {
 
     private var alertDialog: Dialog? = null
+
+    protected open val toolbarTitle: String = ""
+    protected open val toolbar: Toolbar? = null
+
+    protected open val needBackButton: Boolean = false
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        toolbar?.let { toolbar ->
+            if(toolbarTitle.isNotEmpty()) toolbar.title = toolbarTitle
+            (activity as? AppCompatActivity)?.let { activityCompat ->
+                activityCompat.setSupportActionBar(toolbar)
+                if(needBackButton) {
+                    activityCompat.supportActionBar?.apply {
+                        setDisplayHomeAsUpEnabled(true)
+                        setHomeButtonEnabled(true)
+                    }
+                    toolbar.setNavigationOnClickListener {
+                        onBackPressed()
+                    }
+                }
+            }
+        }
+    }
+
 
     open fun showAlertDialog(message: Any, okTitle: Int = R.string.title_try_again, okHandler: UnitHandler? = null) {
 
@@ -58,12 +88,12 @@ abstract class BaseFragment<P : IStickyPresenter<out IStickyView>> : BaseStickyF
     open fun showLoading() {
         view?.run {
             findViewById<ViewGroup>(R.id.contentLayout)?.hide()
-            findViewById<LinearLayout>(R.id.loadingLayout)?.show()
+            findViewById<ViewGroup>(R.id.loadingLayout)?.show()
         }
     }
     open fun hideLoading() {
         view?.run {
-            findViewById<LinearLayout>(R.id.loadingLayout)?.hide()
+            findViewById<ViewGroup>(R.id.loadingLayout)?.hide()
             findViewById<ViewGroup>(R.id.contentLayout)?.show()
         }
     }
@@ -81,6 +111,7 @@ abstract class BaseFragment<P : IStickyPresenter<out IStickyView>> : BaseStickyF
         get() = this
 
     override fun onDestroyView() {
+        toolbar?.setNavigationOnClickListener(null)
         super.onDestroyView()
         closeAlertDialog()
     }

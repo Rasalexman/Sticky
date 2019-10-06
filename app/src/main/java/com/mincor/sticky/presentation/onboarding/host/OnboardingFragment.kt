@@ -47,12 +47,7 @@ class OnboardingFragment : BaseHostFragment<IOnboardingContract.IPresenter>(),
 
     companion object {
         private val onBoardingModule = kodiModule {
-            bind<IOnboardingContract.IPresenter>()      with single {
-                OnboardingPresenter(
-                    instance(),
-                    instance()
-                )
-            }
+            bind<IOnboardingContract.IPresenter>()      with single { OnboardingPresenter(instance()) }
             bind<ISignInContract.IPresenter>()          with single { SignInPresenter(instance(), instance()) }
             bind<ISignUpContract.IPresenter>()          with single { SignUpPresenter(instance(), instance()) }
         } withScope ONBOARDING_NAVIGATOR.asScope()
