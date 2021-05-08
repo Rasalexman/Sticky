@@ -114,7 +114,6 @@ interface IStickyPresenter<V : IStickyView> : LifecycleObserver {
      * [IStickyView] continuation instance
      * It's always waiting until your [IStickyView] will be available
      */
-    @Synchronized
     suspend fun <V : IStickyView> IStickyPresenter<V>.view(): V {
         if (isViewAvailable.get()) {
             unsafeView?.let { return it }
@@ -126,7 +125,6 @@ interface IStickyPresenter<V : IStickyView> : LifecycleObserver {
     /**
      * Observer method to check for [unsafeView] is available for manipulations
      */
-    @Synchronized
     @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
     fun onViewStateChanged() {
         val state = viewLifecycle?.currentState
@@ -137,7 +135,6 @@ interface IStickyPresenter<V : IStickyView> : LifecycleObserver {
     /**
      * Observer method to check for [unsafeView] apply sticky and continuations
      */
-    @Synchronized
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     fun onViewResumedForContinuations() {
         runContinuationsWithView()
@@ -146,7 +143,6 @@ interface IStickyPresenter<V : IStickyView> : LifecycleObserver {
     /**
      * Observer method to check for [unsafeView] to be cleared
      */
-    @Synchronized
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun onViewDestroyed() {
         this.viewLifecycle?.removeObserver(this)
@@ -256,7 +252,6 @@ interface IStickyPresenter<V : IStickyView> : LifecycleObserver {
      * Private
      * Remove sticky from list
      */
-    @Synchronized
     private fun removeSticky(sticky: ISticky<V>) {
         stickyList.remove(sticky)
     }
@@ -265,7 +260,6 @@ interface IStickyPresenter<V : IStickyView> : LifecycleObserver {
      * Private
      * Add sticky to list
      */
-    @Synchronized
     private fun addSticky(sticky: ISticky<V>) {
         stickyList.add(sticky)
     }
@@ -274,7 +268,6 @@ interface IStickyPresenter<V : IStickyView> : LifecycleObserver {
      * Private
      * Clear all instances and continuations
      */
-    @Synchronized
     fun <V : IStickyView> IStickyPresenter<V>.cleanup() {
         viewLifecyclerMap.remove(this)
         viewAvailableMap.remove(this)

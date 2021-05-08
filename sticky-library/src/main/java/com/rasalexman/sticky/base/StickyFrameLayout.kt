@@ -34,7 +34,7 @@ import com.rasalexman.sticky.core.IStickyViewOwner
  * Base sticky frame layout
  */
 abstract class StickyFrameLayout<P : IStickyPresenter<out IStickyView>> : FrameLayout,
-    LifecycleOwner, IStickyViewOwner<P> , Application.ActivityLifecycleCallbacks{
+    LifecycleOwner, IStickyViewOwner<P> {
 
     /**
      * Primary constructor
