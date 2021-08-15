@@ -1,17 +1,19 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion COMPILE_VERSION
     buildToolsVersion BUILD_TOOLS
     defaultConfig {
-        applicationId "com.mincor.sticky"
+        applicationId "com.rasalexman.stickyexample"
         minSdkVersion MIN_VERSION
         targetSdkVersion TARGET_VERSION
         versionCode 10000
         versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled = true
     }
     buildTypes {
         release {
@@ -27,7 +29,7 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
-        freeCompilerArgs = ["-XXLanguage:+InlineClasses", "-Xexperimental=kotlin.ExperimentalUnsignedTypes"]
+        //freeCompilerArgs = ["-XXLanguage:+InlineClasses", "-Xexperimental=kotlin.ExperimentalUnsignedTypes"]
     }
 }
 
@@ -40,22 +42,23 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation.fragment"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation.ui"
 
-    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
+    //implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
     // alternately - if using Java8, use the following instead of lifecycle-compiler
-    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
+    //implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
 
     //--- SHARED PREFERENCE
     implementation "com.chibatching.kotpref:kotpref:$kotPrefVersion"
 
     // COROUTINES MANAGER
-    implementation "com.rasalexman.coroutinesmanager:coroutinesmanager:$coroutinesManagerVersion"
+    implementation "com.github.Rasalexman:coroutinesmanager:$coroutinesManagerVersion"
 
     implementation project(":sticky-library")
-    implementation "com.rasalexman.kodi:kodi:$kodiVersion"
+    implementation "com.github.Rasalexman.KODI:kodi:$kodiVersion"
+    kapt "com.github.Rasalexman.KODI:kodigen:$kodiVersion"
 
-    //implementation "com.rasalexman.sticky:sticky:$stickyLibVersion"
+    //implementation "com.rasalexman.stickyexample:sticky:$stickyLibVersion"
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.android.gms:play-services-plus:17.0.0'

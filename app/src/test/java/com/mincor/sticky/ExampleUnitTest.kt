@@ -1,4 +1,4 @@
-package com.mincor.sticky
+package com.rasalexman.stickyexample
 
 import org.junit.Test
 

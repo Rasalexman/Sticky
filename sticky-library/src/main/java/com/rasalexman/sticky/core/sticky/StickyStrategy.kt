@@ -31,5 +31,5 @@ sealed class StickyStrategy {
      * Counter execution strategy
      * @param maxExecutionCounter - max executions
      */
-    data class Counter @ExperimentalUnsignedTypes constructor(val maxExecutionCounter: UInt = 1u) : StickyStrategy()
+    data class Counter constructor(val maxExecutionCounter: UInt = 1u) : StickyStrategy()
 }

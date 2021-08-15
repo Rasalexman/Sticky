@@ -1,27 +1,30 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.4.32'
+    ext.kotlin_version = '1.5.21'
     ext.dokka_version = '0.9.17'
     repositories {
         google()
-        jcenter()
+        //jcenter()
         mavenCentral()
+        maven {
+            url  "https://jitpack.io"
+        }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.3'
+        classpath 'com.android.tools.build:gradle:4.2.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // The Gradle Bintray Plugin allows you to publish artifacts to Bintray.
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+       // classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
         // Modification to the standard Maven plugin to be compatible with android-library projects (aar).
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
+        //classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
         // Dokka is a documentation engine for Kotlin, performing the same function as javadoc for Java.
         // Just like Kotlin itself, Dokka fully supports mixed-language Java/Kotlin projects.
         // It understands standard Javadoc comments in Java files and KDoc comments in Kotlin files,
         // and can generate documentation in multiple formats including standard Javadoc, HTML
         // and Markdown.
-        classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:${dokka_version}"
+        //classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:${dokka_version}"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
         // NOTE: Do not place your application dependencies here; they belong
@@ -30,25 +33,25 @@ buildscript {
 
     ext {
         MIN_VERSION = 19
-        COMPILE_VERSION = 29
-        TARGET_VERSION = 29
-        BUILD_TOOLS = "29.0.2"
+        COMPILE_VERSION = 30
+        TARGET_VERSION = 30
+        BUILD_TOOLS = "30.0.2"
 
-        stickyLibVersion = "1.0.9"
-        stickyLibCode = 10009
+        stickyLibVersion = "1.1.0"
+        stickyLibCode = 10100
 
-        appCompatXVersion = '1.2.0'
-        appCoreXVersion = '1.1.0'
-        constraintlayout = '1.1.3'
-        lifecycleVersion = '2.2.0-rc01'
+        appCompatXVersion = '1.3.1'
+        appCoreXVersion = '1.6.0'
+        constraintlayout = '2.1.0'
+        lifecycleVersion = '2.3.1'
 
-        kodiVersion = "1.2.4"
-        kotPrefVersion = "2.9.1"
-        coroutinesManagerVersion = "1.1.3"
+        kodiVersion = "1.5.15"
+        kotPrefVersion = "2.13.1"
+        coroutinesManagerVersion = "1.3.4"
 
         navigation = [
-                fragment: '2.1.0',
-                ui      : '2.1.0'
+                fragment: '2.3.5',
+                ui      : '2.3.5'
         ]
     }
 }
@@ -56,10 +59,10 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
+        //jcenter()
         mavenCentral()
         maven {
-            url  "https://dl.bintray.com/sphc/Sticky"
+            url  "https://jitpack.io"
         }
     }
 }

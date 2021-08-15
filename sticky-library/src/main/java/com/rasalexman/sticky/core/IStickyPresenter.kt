@@ -38,7 +38,7 @@ interface IStickyPresenter<V : IStickyView> : LifecycleObserver {
 
     /**
      * Flag that says must restore sticky continuation when [Lifecycle.State.RESUMED] is fired from [IStickyView] instance
-     * You can override get() method to restore your sticky actions every time your [View] instance is destroyed
+     * You can override get() method to restore your sticky actions every time your [android.view.View] instance is destroyed
      */
     val mustRestoreSticky: Boolean
         get() = viewRestoreStickiesMap.getOrPut(this) { false }
@@ -231,7 +231,6 @@ interface IStickyPresenter<V : IStickyView> : LifecycleObserver {
      * @param stickyContext - [CoroutineContext] for sticky
      * @param block - [StickyBlock] for be applied
      */
-    @ExperimentalUnsignedTypes
     fun V.sticky(
         executionCount: UInt,
         stickyContext: CoroutineContext = EmptyCoroutineContext,

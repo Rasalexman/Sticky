@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.mincor.sticky.presentation.tabs.home.HomeFragment"
+        android:name="com.rasalexman.stickyexample.presentation.tabs.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -21,25 +21,25 @@
 
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.mincor.sticky.presentation.tabs.search.SearchFragment"
+        android:name="com.rasalexman.stickyexample.presentation.tabs.search.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
 
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.mincor.sticky.presentation.tabs.profile.ProfileFragment"
+        android:name="com.rasalexman.stickyexample.presentation.tabs.profile.ProfileFragment"
         android:label="fragment_account"
         tools:layout="@layout/fragment_profile" />
 
     <fragment
         android:id="@+id/homeSettingsFragment"
-        android:name="com.mincor.sticky.presentation.tabs.home.homesettings.HomeSettingsFragment"
+        android:name="com.rasalexman.stickyexample.presentation.tabs.home.homesettings.HomeSettingsFragment"
         android:label="HomeSettingsFragment"
         tools:layout="@layout/fragment_home_settings"/>
 
     <dialog
         android:id="@+id/filterDialogFragment"
-        android:name="com.mincor.sticky.presentation.tabs.home.homefilters.FilterDialogFragment"
+        android:name="com.rasalexman.stickyexample.presentation.tabs.home.homefilters.FilterDialogFragment"
         android:label="FilterDialogFragment"
         tools:layout="@layout/dialog_home_filters"/>
 

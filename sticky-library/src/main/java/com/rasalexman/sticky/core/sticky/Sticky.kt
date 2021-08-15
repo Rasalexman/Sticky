@@ -45,7 +45,7 @@ data class Sticky<V : IStickyView>(
     /**
      * ResumeWith continuation function
      */
-    @ExperimentalUnsignedTypes
+
     override fun resumeWith(result: Result<V>) {
         when {
             result.isSuccess -> {

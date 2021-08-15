@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/startFragment"
-        android:name="com.mincor.sticky.presentation.start.StartFragment"
+        android:name="com.rasalexman.stickyexample.presentation.start.StartFragment"
         android:label="fragment_start"
         tools:layout="@layout/fragment_start">
         <action
@@ -27,13 +27,13 @@
         app:destination="@id/tabsFragment" />
 
     <fragment android:id="@+id/onboardingFragment"
-        android:name="com.mincor.sticky.presentation.onboarding.host.OnboardingFragment"
+        android:name="com.rasalexman.stickyexample.presentation.onboarding.host.OnboardingFragment"
         android:label="fragment_onboarding"
         tools:layout="@layout/host_fragment_onboarding"/>
 
     <fragment
         android:id="@+id/tabsFragment"
-        android:name="com.mincor.sticky.presentation.tabs.host.TabsFragment"
+        android:name="com.rasalexman.stickyexample.presentation.tabs.host.TabsFragment"
         android:label="fragment_tabs"
         tools:layout="@layout/host_fragment_tabs" />
 

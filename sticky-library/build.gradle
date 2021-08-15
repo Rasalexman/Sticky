@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'org.jetbrains.dokka-android'
-apply plugin: 'maven'
+//apply plugin: 'org.jetbrains.dokka-android'
+apply plugin: 'maven-publish'
 
 android {
     compileSdkVersion COMPILE_VERSION
@@ -12,13 +12,18 @@ android {
         versionCode stickyLibCode
         versionName stickyLibVersion
 
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            archivesBaseName = "sticky-v${stickyLibVersion}"
+            //proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            libraryVariants.all { variant ->
+                renameAPK(variant)
+            }
         }
     }
 
@@ -29,27 +34,48 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
-        freeCompilerArgs = ["-XXLanguage:+InlineClasses", "-Xexperimental=kotlin.ExperimentalUnsignedTypes"]
+        //freeCompilerArgs = ["-XXLanguage:+InlineClasses", "-Xexperimental=kotlin.ExperimentalUnsignedTypes"]
     }
 
 }
 
+static def renameAPK(variant) {
+    variant.outputs.each { output ->
+        def file = output.outputFile
+        def fileName = file.name.replaceAll("-release", "")
+        output.outputFileName = fileName
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    api "androidx.appcompat:appcompat:$appCompatXVersion"
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version")
+    compileOnly("androidx.appcompat:appcompat:$appCompatXVersion")
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
 
-dokka {
-    outputFormat = 'html'
-    outputDirectory = "$buildDir/javadoc"
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+
+    //withJavadocJar()
+    //withSourcesJar()
 }
 
-repositories {
-    mavenCentral()
+version = stickyLibVersion
+group = 'com.rasalexman.sticky'
+afterEvaluate {
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                groupId = 'com.rasalexman.sticky'
+                artifactId = 'sticky'
+                version = stickyLibVersion
+                from components.release
+            }
+        }
+    }
 }
-apply from: 'deploy.gradle'

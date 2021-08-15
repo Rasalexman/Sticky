@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/signInFragment"
-        android:name="com.mincor.sticky.presentation.onboarding.signin.SignInFragment"
+        android:name="com.rasalexman.stickyexample.presentation.onboarding.signin.SignInFragment"
         android:label="fragment_sign_in"
         tools:layout="@layout/fragment_sign_in" >
         <action
@@ -22,7 +22,7 @@
 
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.mincor.sticky.presentation.onboarding.signup.SignUpFragment"
+        android:name="com.rasalexman.stickyexample.presentation.onboarding.signup.SignUpFragment"
         android:label="fragment_sign_up"
         tools:layout="@layout/fragment_sign_up">
     </fragment>

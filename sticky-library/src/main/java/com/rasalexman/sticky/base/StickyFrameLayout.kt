@@ -13,7 +13,6 @@
 // THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 package com.rasalexman.sticky.base
 
-import android.app.Application
 import android.content.Context
 import android.content.ContextWrapper
 import android.os.Build

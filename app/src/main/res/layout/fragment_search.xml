@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".presentation.tabs.search.SearchFragment">
 
-    <com.mincor.sticky.presentation.start.loading.LoadingLayout
+    <com.rasalexman.stickyexample.presentation.start.loading.LoadingLayout
         android:id="@+id/loadingLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

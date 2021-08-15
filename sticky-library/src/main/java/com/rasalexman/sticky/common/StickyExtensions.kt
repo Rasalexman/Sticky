@@ -17,14 +17,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.rasalexman.sticky.core.IStickyView
 import com.rasalexman.sticky.core.IStickyViewOwner
-import com.rasalexman.sticky.core.sticky.ISticky
 
 /**
  * Get lazy [ViewModel] from [IStickyViewOwner]
  * @param factoryProducer noinline lambda need to return [ViewModelProvider.Factory]
  */
 inline fun <reified VM : ViewModel> IStickyView.viewModelLazy(noinline factoryProducer: (() -> ViewModelProvider.Factory)? = null): Lazy<VM> = lazy {
-    this.viewModel<VM>(factoryProducer)
+    this.viewModel(factoryProducer)
 }
 
 /**
