@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.rasalexman.sticky.common.HomeLiveData
-import com.rasalexman.sticky.common.SResult
-import com.rasalexman.sticky.common.loading
+import com.rasalexman.stickyexample.common.SResult
+import com.rasalexman.stickyexample.common.loading
 import kotlinx.coroutines.Dispatchers
 
 class HomeViewModel : ViewModel() {

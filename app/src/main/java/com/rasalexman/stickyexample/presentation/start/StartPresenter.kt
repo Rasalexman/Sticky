@@ -1,20 +1,17 @@
 package com.rasalexman.stickyexample.presentation.start
 
-import androidx.navigation.NavController
+import com.rasalexman.coroutinesmanager.ICoroutinesManager
+import com.rasalexman.coroutinesmanager.launchOnUITryCatch
 import com.rasalexman.kodi.core.IKodi
+import com.rasalexman.stickyexample.common.YUI
 import com.rasalexman.stickyexample.R
-import com.rasalexman.sticky.common.YUI
 import com.rasalexman.stickyexample.data.local.IUserAccount
 import com.rasalexman.stickyexample.data.local.isRegistered
 import com.rasalexman.stickyexample.navigation.mainNavigator
-import com.rasalexman.coroutinesmanager.ICoroutinesManager
-import com.rasalexman.coroutinesmanager.launchOnUITryCatch
 
 data class StartPresenter(
     private val userAccount: IUserAccount
 ) : BaseStartPresenter(), IKodi, ICoroutinesManager {
-
-    private val mainNavigator: NavController by mainNavigator()
 
     override fun onViewCreated(view: IStartContract.IStartView) = launchOnUITryCatch(
         tryBlock = {

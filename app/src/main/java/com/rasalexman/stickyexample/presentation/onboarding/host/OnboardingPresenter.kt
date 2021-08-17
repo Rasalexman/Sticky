@@ -1,9 +1,8 @@
 package com.rasalexman.stickyexample.presentation.onboarding.host
 
-import com.rasalexman.sticky.common.YUI
+import com.rasalexman.stickyexample.common.YUI
 import com.rasalexman.coroutinesmanager.ICoroutinesManager
 import com.rasalexman.coroutinesmanager.launchOnUITryCatch
-import com.rasalexman.stickyexample.presentation.onboarding.host.IOnboardingContract
 
 class OnboardingPresenter(
     coroutinesManager: ICoroutinesManager

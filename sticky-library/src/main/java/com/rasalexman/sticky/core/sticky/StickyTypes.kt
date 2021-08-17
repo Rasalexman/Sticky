@@ -15,6 +15,7 @@ package com.rasalexman.sticky.core.sticky
 
 import com.rasalexman.sticky.core.IStickyPresenter
 import com.rasalexman.sticky.core.IStickyView
+import java.lang.ref.WeakReference
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.coroutines.Continuation
 
@@ -31,7 +32,7 @@ typealias ViewStickyList<V> = MutableList<ISticky<V>>
 /**
  * [MutableMap]
  */
-typealias ViewLifecyclerMap = MutableMap<IStickyPresenter<*>, IStickyView?>
+typealias ViewLifecyclerMap = MutableMap<IStickyPresenter<*>, WeakReference<IStickyView>?>
 
 /**
  * [MutableMap]
@@ -56,7 +57,7 @@ typealias ViewRestoreStickyMap = MutableMap<IStickyPresenter<*>, Boolean>
 /**
  * literal function with reciever
  */
-typealias StickyBlock<V> = V.(ISticky<V>) -> Unit
+typealias StickyBlock<V> = suspend V.(ISticky<V>) -> Unit
 
 /**
  * Remover function

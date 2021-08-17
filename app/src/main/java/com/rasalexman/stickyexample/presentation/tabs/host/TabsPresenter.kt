@@ -1,6 +1,6 @@
 package com.rasalexman.stickyexample.presentation.tabs.host
 
-import com.rasalexman.sticky.common.YUI
+import com.rasalexman.stickyexample.common.YUI
 import com.rasalexman.coroutinesmanager.ICoroutinesManager
 import com.rasalexman.coroutinesmanager.launchOnUITryCatch
 

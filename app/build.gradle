@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
@@ -22,6 +21,11 @@ android {
         }
     }
 
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+    }
+
     compileOptions {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
@@ -38,9 +42,12 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "androidx.appcompat:appcompat:$appCompatXVersion"
     implementation "androidx.core:core-ktx:$appCoreXVersion"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     implementation "androidx.constraintlayout:constraintlayout:$constraintlayout"
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation.fragment"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation.ui"
+    implementation "com.google.android.material:material:$materialVersion"
+    implementation("androidx.databinding:viewbinding:4.2.2")
 
     //implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
@@ -53,6 +60,8 @@ dependencies {
 
     // COROUTINES MANAGER
     implementation "com.github.Rasalexman:coroutinesmanager:$coroutinesManagerVersion"
+    // LEAK DETECTOR
+    implementation "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion"
 
     implementation project(":sticky-library")
     implementation "com.github.Rasalexman.KODI:kodi:$kodiVersion"
@@ -65,4 +74,5 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
 }

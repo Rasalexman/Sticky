@@ -35,7 +35,6 @@ abstract class StickyDialog<P : IStickyPresenter<out IStickyView>> : DialogFragm
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         attach()
-        addListeners()
     }
 
     /**

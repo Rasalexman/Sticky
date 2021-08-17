@@ -2,22 +2,22 @@ package com.rasalexman.stickyexample.presentation.base
 
 import android.app.Dialog
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import com.rasalexman.stickyexample.R
-import com.rasalexman.sticky.common.UnitHandler
-import com.rasalexman.sticky.common.hide
-import com.rasalexman.sticky.common.show
 import com.rasalexman.sticky.base.StickyFragment
+import com.rasalexman.sticky.common.UnitHandler
 import com.rasalexman.sticky.core.IStickyPresenter
 import com.rasalexman.sticky.core.IStickyView
+import com.rasalexman.stickyexample.R
+import com.rasalexman.stickyexample.common.hide
+import com.rasalexman.stickyexample.common.show
 
-abstract class BaseFragment<P : IStickyPresenter<out IStickyView>> : StickyFragment<P>(), INavigationHandler {
+abstract class BaseFragment<P : IStickyPresenter<out IStickyView>> : StickyFragment<P>(),
+    INavigationHandler, Toolbar.OnMenuItemClickListener {
 
     private var alertDialog: Dialog? = null
 
@@ -28,22 +28,25 @@ abstract class BaseFragment<P : IStickyPresenter<out IStickyView>> : StickyFragm
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        toolbar?.let(::setupToolbar)
+    }
 
-        toolbar?.let { toolbar ->
-            if(toolbarTitle.isNotEmpty()) toolbar.title = toolbarTitle
-            (activity as? AppCompatActivity)?.let { activityCompat ->
-                activityCompat.setSupportActionBar(toolbar)
-                if(needBackButton) {
-                    activityCompat.supportActionBar?.apply {
-                        setDisplayHomeAsUpEnabled(true)
-                        setHomeButtonEnabled(true)
-                    }
-                    toolbar.setNavigationOnClickListener {
-                        onBackPressed()
-                    }
-                }
+    open fun setupToolbar(toolbarView: Toolbar) {
+        if(toolbarTitle.isNotEmpty()) toolbarView.title = toolbarTitle
+
+        if(toolbarView.menu.hasVisibleItems()) {
+            toolbarView.setOnMenuItemClickListener(this)
+        }
+        if(needBackButton) {
+            toolbarView.setNavigationIcon(R.drawable.ic_arrow_back_24)
+            toolbarView.setNavigationOnClickListener {
+                onBackPressed()
             }
         }
+    }
+
+    override fun onMenuItemClick(item: MenuItem): Boolean {
+        return true
     }
 
 
@@ -111,7 +114,10 @@ abstract class BaseFragment<P : IStickyPresenter<out IStickyView>> : StickyFragm
         get() = this
 
     override fun onDestroyView() {
-        toolbar?.setNavigationOnClickListener(null)
+        toolbar?.apply {
+            setNavigationOnClickListener(null)
+            setOnMenuItemClickListener(null)
+        }
         super.onDestroyView()
         closeAlertDialog()
     }

@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/loadingLayout"
     android:orientation="vertical"
+    android:visibility="gone"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:visibility="gone"
-    android:gravity="center_horizontal">
+    android:gravity="center_horizontal"
+    tools:visibility="visible">
 
-    <ProgressBar
+    <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:indicatorColor="@color/colorAccent"
+        android:indeterminate="true"
         />
 
     <TextView
@@ -19,6 +23,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/title_loading"
+        android:textColor="@color/text_primary"
+        android:textSize="@dimen/text_size_14sp"
         android:layout_marginTop="8dp"
         />
 

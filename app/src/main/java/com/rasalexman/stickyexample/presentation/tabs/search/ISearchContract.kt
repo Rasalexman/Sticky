@@ -7,5 +7,7 @@ interface ISearchContract {
 
     interface IView : IBaseStickyView
 
-    interface IPresenter : IStickyPresenter<IView>
+    interface IPresenter : IStickyPresenter<IView> {
+        fun searchByQuery(query: String)
+    }
 }

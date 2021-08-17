@@ -14,42 +14,44 @@ import androidx.navigation.NavGraph
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.rasalexman.kodi.core.IKodi
+import com.rasalexman.kodi.core.immutableInstance
 import com.rasalexman.kodi.core.instance
 import com.rasalexman.stickyexample.R
-import com.rasalexman.stickyexample.navigation.Navigators
-import com.rasalexman.stickyexample.presentation.base.BaseFragment
-import kotlinx.android.synthetic.main.fragment_home.*
+import com.rasalexman.stickyexample.databinding.FragmentHomeBinding
+import com.rasalexman.stickyexample.presentation.base.BaseViewBindingFragment
 
 
 /**
  * A simple [Fragment] subclass.
  */
-class HomeFragment : BaseFragment<IHomeContract.IPresenter>(),
+class HomeFragment : BaseViewBindingFragment<FragmentHomeBinding, IHomeContract.IPresenter>(),
     IHomeContract.IView, IKodi {
 
-    override val presenter: IHomeContract.IPresenter
-        get() = HomePresenter(instance())
+    override val presenter: IHomeContract.IPresenter by immutableInstance()
 
     override val layoutId: Int
         get() = R.layout.fragment_home
 
-    override val toolbar: Toolbar?
-        get() = toolbarView
+    override val bindHandler: (View) -> FragmentHomeBinding
+        get() = FragmentHomeBinding::bind
 
+    override val toolbar: Toolbar
+        get() = viewBinding.toolbarView
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true)
+    override fun onMenuItemClick(item: MenuItem): Boolean {
+        findNavController().navigateWithMenuAnimation(
+            item,
+            R.anim.slide_in_right,
+            R.anim.slide_out_left,
+            R.anim.slide_in_left,
+            R.anim.slide_out_right
+        )
+        return super.onMenuItemClick(item)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.home_navigation_menu, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        findNavController().navigateWithMenuAnimation(item, R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
-        return super.onOptionsItemSelected(item)
+    override fun onDestroyView() {
+        presenter.onViewDestroyed(this)
+        super.onDestroyView()
     }
 }
 
@@ -59,7 +61,8 @@ fun NavController.navigateWithMenuAnimation(
     exitAnim: Int = R.anim.nav_default_exit_anim,
     popEnterAnim: Int = R.anim.nav_default_pop_enter_anim,
     popExitAnim: Int = R.anim.nav_default_pop_exit_anim,
-    args: Bundle? = null): Boolean {
+    args: Bundle? = null
+): Boolean {
     val builder = NavOptions.Builder()
         .setLaunchSingleTop(true)
         .setEnterAnim(enterAnim)

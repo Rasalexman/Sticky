@@ -50,7 +50,9 @@ static def renameAPK(variant) {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version")
-    compileOnly("androidx.appcompat:appcompat:$appCompatXVersion")
+    //compileOnly("androidx.core:core-ktx:$appCoreXVersion")
+    compileOnly("androidx.fragment:fragment-ktx:$fragmentVersion")
+    //compileOnly("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'

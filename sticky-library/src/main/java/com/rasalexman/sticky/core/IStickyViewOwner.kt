@@ -54,9 +54,4 @@ interface IStickyViewOwner<P : IStickyPresenter<out IStickyView>> : IStickyView 
     fun attach() {
         presenter.onAttach(this)
     }
-
-    /**
-     * Helper function to add view listeners HERE
-     */
-    fun addListeners() = Unit
 }

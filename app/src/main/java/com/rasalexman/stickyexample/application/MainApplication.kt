@@ -10,6 +10,10 @@ import com.rasalexman.stickyexample.presentation.start.loading.ILoadingContract
 import com.rasalexman.stickyexample.presentation.start.loading.LoadingPresenter
 import com.rasalexman.coroutinesmanager.CoroutinesManager
 import com.rasalexman.coroutinesmanager.ICoroutinesManager
+import com.rasalexman.stickyexample.presentation.tabs.home.HomePresenter
+import com.rasalexman.stickyexample.presentation.tabs.home.IHomeContract
+import com.rasalexman.stickyexample.presentation.tabs.home.layout.HomeLayoutPresenter
+import com.rasalexman.stickyexample.presentation.tabs.home.layout.IHomeLayoutContract
 
 class MainApplication : Application() {
 
@@ -21,6 +25,11 @@ class MainApplication : Application() {
         bind<IUserAccount>()                with single { UserAccount(instance()) }
 
         bind<ILoadingContract.IPresenter>() with single { LoadingPresenter() }
+
+        bind<IHomeContract.IPresenter>()  with single { HomePresenter(instance()) }
+        
+        bind<IHomeLayoutContract.IPresenter>()  with single { HomeLayoutPresenter() }
+
     }
 
 

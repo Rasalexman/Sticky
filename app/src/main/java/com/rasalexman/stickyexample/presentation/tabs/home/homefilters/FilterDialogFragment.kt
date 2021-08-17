@@ -2,10 +2,10 @@ package com.rasalexman.stickyexample.presentation.tabs.home.homefilters
 
 import android.os.Bundle
 import android.view.View
-import com.rasalexman.stickyexample.R
-import com.rasalexman.sticky.common.unsafeLazy
 import com.rasalexman.sticky.base.StickyDialog
-import kotlinx.android.synthetic.main.dialog_home_filters.*
+import com.rasalexman.stickyexample.R
+import com.rasalexman.stickyexample.common.unsafeLazy
+import com.rasalexman.stickyexample.databinding.DialogHomeFiltersBinding
 
 class FilterDialogFragment : StickyDialog<FilterDialogPresenter>(), IFilterDialogView {
 
@@ -16,16 +16,16 @@ class FilterDialogFragment : StickyDialog<FilterDialogPresenter>(), IFilterDialo
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        titleTextView.text = getString(R.string.title_filters)
-        descTextView.text = getString(R.string.desc_filters)
-    }
-
-    override fun addListeners() {
-        actionButton.setOnClickListener {
-            this.dismiss()
-        }
-        cancelButton.setOnClickListener {
-            this.dismiss()
+        val binding = DialogHomeFiltersBinding.bind(view)
+        binding.apply {
+            actionButton.setOnClickListener {
+                this@FilterDialogFragment.dismiss()
+            }
+            cancelButton.setOnClickListener {
+                this@FilterDialogFragment.dismiss()
+            }
+            titleTextView.text = getString(R.string.title_filters)
+            descTextView.text = getString(R.string.desc_filters)
         }
     }
 }

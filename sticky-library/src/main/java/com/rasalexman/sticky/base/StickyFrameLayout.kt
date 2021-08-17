@@ -21,12 +21,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.findFragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelStoreOwner
 import com.rasalexman.sticky.core.IStickyPresenter
 import com.rasalexman.sticky.core.IStickyView
 import com.rasalexman.sticky.core.IStickyViewOwner
+import java.lang.ref.WeakReference
 
 
 /**
@@ -83,19 +86,42 @@ abstract class StickyFrameLayout<P : IStickyPresenter<out IStickyView>> : FrameL
         initLayout(context)
     }
 
+    protected var parentWeakLifecycle: WeakReference<Lifecycle>? = null
+    protected var parentWeakVMSOwner: WeakReference<ViewModelStoreOwner>? = null
+
+    protected open val parentLifecycle: Lifecycle
+        get() = parentWeakLifecycle?.get() ?: try {
+            val parentFragment = this.findFragment<Fragment>()
+            parentFragment.viewLifecycleOwner.lifecycle
+        } catch (e: Exception) {
+            this.lifecycle
+        }.also {
+            parentWeakLifecycle = WeakReference(it)
+        }
+
+
+    protected open val parentVMSOwner: ViewModelStoreOwner
+        get() = parentWeakVMSOwner?.get() ?: try {
+            findFragment()
+        } catch (e: Exception) {
+            getOwner<ViewModelStoreOwner>()
+        }.also {
+            parentWeakVMSOwner = WeakReference(it)
+        }
+
     /**
      * This function is used for init layout
      *
      * @param context app context
      */
     private fun initLayout(context: Context) {
-        onViewCreated(LayoutInflater.from(context).inflate(layoutId, this, true))
+        createLayout(context)
     }
 
-    /**
-     * When finish inflate view attach presenter to the view
-     * Note: This is called every time when view is destroyed
-     */
+    protected open fun createLayout(context: Context): View {
+        return LayoutInflater.from(context).inflate(layoutId, this, true)
+    }
+
     override fun onFinishInflate() {
         super.onFinishInflate()
         create(savedInstanceState = null)
@@ -106,7 +132,18 @@ abstract class StickyFrameLayout<P : IStickyPresenter<out IStickyView>> : FrameL
      */
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
+        clearWeakRefs()
         attach()
+    }
+
+    /**
+     *
+     */
+    protected open fun clearWeakRefs() {
+        parentWeakLifecycle?.clear()
+        parentWeakVMSOwner?.clear()
+        parentWeakLifecycle = null
+        parentWeakVMSOwner = null
     }
 
     /**
@@ -118,20 +155,20 @@ abstract class StickyFrameLayout<P : IStickyPresenter<out IStickyView>> : FrameL
      * get view [Lifecycle] from its [Context]
      */
     override fun getLifecycle(): Lifecycle {
-        return getOwner<LifecycleOwner>().lifecycle
+        return parentLifecycle
     }
 
     /**
      *  get [ViewModelStoreOwner]
      */
     override fun getViewModelStoreOwner(): ViewModelStoreOwner {
-        return getOwner()
+        return parentVMSOwner
     }
 
     /**
      * Inline function to retrieve [Context] owners
      */
-    private inline fun<reified T> getOwner(): T {
+    protected inline fun <reified T> getOwner(): T {
         var context: Context = context
         while (context !is T) {
             context = (context as ContextWrapper).baseContext

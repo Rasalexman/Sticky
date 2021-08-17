@@ -1,4 +1,4 @@
-package com.rasalexman.sticky.common
+package com.rasalexman.stickyexample.common
 
 sealed class SResult<out T : Any> {
     class Success<out T : Any>(

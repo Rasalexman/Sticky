@@ -37,13 +37,16 @@ buildscript {
         TARGET_VERSION = 30
         BUILD_TOOLS = "30.0.2"
 
-        stickyLibVersion = "1.1.1"
-        stickyLibCode = 10101
+        stickyLibVersion = "1.1.2"
+        stickyLibCode = 10102
 
         appCompatXVersion = '1.3.1'
         appCoreXVersion = '1.6.0'
         constraintlayout = '2.1.0'
         lifecycleVersion = '2.3.1'
+        fragmentVersion = '1.3.6'
+        materialVersion = '1.4.0'
+        leakCanaryVersion = '2.7'
 
         kodiVersion = "1.5.15"
         kotPrefVersion = "2.13.1"

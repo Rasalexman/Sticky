@@ -1,148 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <include
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        layout="@layout/layout_loading"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+    <data>
+        <variable
+            name="item"
+            type="com.rasalexman.stickyexample.presentation.onboarding.signup.SignUpPresenter" />
+    </data>
 
-    <LinearLayout
-        android:id="@+id/contentLayout"
-        android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        tools:viewBindingIgnore="true"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:context=".presentation.onboarding.signin.SignInFragment">
+        android:layout_width="match_parent">
 
-        <TextView
+        <include
+            android:id="@+id/loadingLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/size_64dp"
-            android:background="@color/background_header"
-            android:padding="@dimen/size_16dp"
-            android:text="@string/title_signup"
-            android:textColor="@color/text_white"
-            android:textSize="@dimen/text_size_18sp"
-            android:textStyle="bold" />
+            layout="@layout/layout_loading"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/nameEditText"
+        <LinearLayout
+            android:id="@+id/contentLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/size_64dp"
-            android:layout_marginTop="@dimen/size_16dp"
-            android:layout_marginEnd="@dimen/size_64dp"
-            android:background="@drawable/background_secondary_rounded_16dp"
-            android:hint="@string/title_name_hint"
-            android:inputType="text"
-            android:maxLines="1"
-            android:paddingStart="@dimen/size_16dp"
-            android:paddingTop="@dimen/size_8dp"
-            android:paddingEnd="@dimen/size_16dp"
-            android:paddingBottom="@dimen/size_8dp"
-            android:textColor="@color/text_white"
-            android:textColorHint="@color/text_white"
-            android:textSize="@dimen/text_size_16sp" />
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:context=".presentation.onboarding.signin.SignInFragment">
 
-        <EditText
-            android:id="@+id/emailEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/size_64dp"
-            android:layout_marginTop="@dimen/size_16dp"
-            android:layout_marginEnd="@dimen/size_64dp"
-            android:background="@drawable/background_secondary_rounded_16dp"
-            android:hint="@string/title_email_hint"
-            android:inputType="textEmailAddress"
-            android:maxLines="1"
-            android:paddingStart="@dimen/size_16dp"
-            android:paddingTop="@dimen/size_8dp"
-            android:paddingEnd="@dimen/size_16dp"
-            android:paddingBottom="@dimen/size_8dp"
-            android:textColor="@color/text_white"
-            android:textColorHint="@color/text_white"
-            android:textSize="@dimen/text_size_16sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/size_64dp"
+                android:background="@color/background_header"
+                android:padding="@dimen/size_16dp"
+                android:text="@string/title_signup"
+                android:textColor="@color/text_white"
+                android:textSize="@dimen/text_size_18sp"
+                android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/passwordEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/size_64dp"
-            android:layout_marginTop="@dimen/size_16dp"
-            android:layout_marginEnd="@dimen/size_64dp"
-            android:background="@drawable/background_secondary_rounded_16dp"
-            android:hint="@string/title_password_hint"
-            android:maxLines="1"
-            android:inputType="textPassword"
-            android:paddingStart="@dimen/size_16dp"
-            android:paddingTop="@dimen/size_8dp"
-            android:paddingEnd="@dimen/size_16dp"
-            android:paddingBottom="@dimen/size_8dp"
-            android:textColor="@color/text_white"
-            android:textColorHint="@color/text_white"
-            android:textSize="@dimen/text_size_16sp" />
+            <EditText
+                android:id="@+id/nameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size_64dp"
+                android:layout_marginTop="@dimen/size_16dp"
+                android:layout_marginEnd="@dimen/size_64dp"
+                android:background="@drawable/background_secondary_rounded_16dp"
+                android:hint="@string/title_name_hint"
+                android:inputType="text"
+                android:maxLines="1"
+                android:text="@={item.name}"
+                android:paddingStart="@dimen/size_16dp"
+                android:paddingTop="@dimen/size_8dp"
+                android:paddingEnd="@dimen/size_16dp"
+                android:paddingBottom="@dimen/size_8dp"
+                android:textColor="@color/text_white"
+                android:textColorHint="@color/text_white"
+                android:textSize="@dimen/text_size_16sp" />
 
-        <EditText
-            android:id="@+id/passwordRepeateEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/size_64dp"
-            android:layout_marginTop="@dimen/size_16dp"
-            android:layout_marginEnd="@dimen/size_64dp"
-            android:inputType="textPassword"
-            android:background="@drawable/background_secondary_rounded_16dp"
-            android:hint="@string/title_password_repeate_hint"
-            android:maxLines="1"
-            android:paddingStart="@dimen/size_16dp"
-            android:paddingTop="@dimen/size_8dp"
-            android:paddingEnd="@dimen/size_16dp"
-            android:paddingBottom="@dimen/size_8dp"
-            android:textColor="@color/text_white"
-            android:textColorHint="@color/text_white"
-            android:textSize="@dimen/text_size_16sp" />
+            <EditText
+                android:id="@+id/emailEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size_64dp"
+                android:layout_marginTop="@dimen/size_16dp"
+                android:layout_marginEnd="@dimen/size_64dp"
+                android:background="@drawable/background_secondary_rounded_16dp"
+                android:hint="@string/title_email_hint"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:text="@={item.email}"
+                android:paddingStart="@dimen/size_16dp"
+                android:paddingTop="@dimen/size_8dp"
+                android:paddingEnd="@dimen/size_16dp"
+                android:paddingBottom="@dimen/size_8dp"
+                android:textColor="@color/text_white"
+                android:textColorHint="@color/text_white"
+                android:textSize="@dimen/text_size_16sp" />
 
-        <Button
-            android:id="@+id/registerButton"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/size_36dp"
-            android:layout_marginTop="@dimen/size_32dp"
-            android:background="@drawable/background_button_default"
-            android:elevation="@dimen/size_2dp"
-            android:minHeight="@dimen/size_64dp"
-            android:paddingStart="@dimen/size_16dp"
-            android:paddingEnd="@dimen/size_16dp"
-            android:text="@string/title_register"
-            android:textColor="@color/text_white" />
+            <EditText
+                android:id="@+id/passwordEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size_64dp"
+                android:layout_marginTop="@dimen/size_16dp"
+                android:layout_marginEnd="@dimen/size_64dp"
+                android:background="@drawable/background_secondary_rounded_16dp"
+                android:hint="@string/title_password_hint"
+                android:maxLines="1"
+                android:text="@={item.password}"
+                android:inputType="textPassword"
+                android:paddingStart="@dimen/size_16dp"
+                android:paddingTop="@dimen/size_8dp"
+                android:paddingEnd="@dimen/size_16dp"
+                android:paddingBottom="@dimen/size_8dp"
+                android:textColor="@color/text_white"
+                android:textColorHint="@color/text_white"
+                android:textSize="@dimen/text_size_16sp" />
 
-        <Button
-            android:id="@+id/backButton"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/size_36dp"
-            android:layout_marginTop="@dimen/size_16dp"
-            android:layout_marginBottom="@dimen/size_24dp"
-            android:background="@drawable/background_button_default"
-            android:elevation="@dimen/size_2dp"
-            android:minHeight="@dimen/size_64dp"
-            android:paddingStart="@dimen/size_16dp"
-            android:paddingEnd="@dimen/size_16dp"
-            android:text="@string/title_back"
-            android:textColor="@color/text_white" />
+            <EditText
+                android:id="@+id/passwordRepeateEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size_64dp"
+                android:layout_marginTop="@dimen/size_16dp"
+                android:layout_marginEnd="@dimen/size_64dp"
+                android:inputType="textPassword"
+                android:background="@drawable/background_secondary_rounded_16dp"
+                android:hint="@string/title_password_repeate_hint"
+                android:maxLines="1"
+                android:text="@={item.repeatedPassword}"
+                android:paddingStart="@dimen/size_16dp"
+                android:paddingTop="@dimen/size_8dp"
+                android:paddingEnd="@dimen/size_16dp"
+                android:paddingBottom="@dimen/size_8dp"
+                android:textColor="@color/text_white"
+                android:textColorHint="@color/text_white"
+                android:textSize="@dimen/text_size_16sp" />
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/registerButton"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/size_36dp"
+                android:layout_marginTop="@dimen/size_32dp"
+                android:background="@drawable/background_button_default"
+                android:elevation="@dimen/size_2dp"
+                android:minHeight="@dimen/size_64dp"
+                android:enabled="@{item.buttonEnabled}"
+                android:paddingStart="@dimen/size_16dp"
+                android:onClick="@{() -> item.onRegisterClicked()}"
+                android:paddingEnd="@dimen/size_16dp"
+                android:text="@string/title_register"
+                android:textColor="@color/text_white" />
+
+            <Button
+                android:id="@+id/backButton"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/size_36dp"
+                android:layout_marginTop="@dimen/size_16dp"
+                android:layout_marginBottom="@dimen/size_24dp"
+                android:background="@drawable/background_button_default"
+                android:elevation="@dimen/size_2dp"
+                android:minHeight="@dimen/size_64dp"
+                android:onClick="@{() -> item.onBackClicked()}"
+                android:paddingStart="@dimen/size_16dp"
+                android:paddingEnd="@dimen/size_16dp"
+                android:text="@string/title_back"
+                android:textColor="@color/text_white" />
+
+        </LinearLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
 

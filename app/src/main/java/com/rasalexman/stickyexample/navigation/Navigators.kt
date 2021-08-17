@@ -3,6 +3,7 @@ package com.rasalexman.stickyexample.navigation
 import androidx.navigation.NavController
 import com.rasalexman.kodi.core.IKodi
 import com.rasalexman.kodi.core.immutableInstance
+import com.rasalexman.kodi.core.instance
 import com.rasalexman.kodi.delegates.IImmutableDelegate
 import com.rasalexman.stickyexample.navigation.Navigators.MAIN_NAVIGATOR
 import com.rasalexman.stickyexample.navigation.Navigators.ONBOARDING_NAVIGATOR
@@ -14,6 +15,6 @@ object Navigators {
     const val TAB_NAVIGATOR: String = "Tab"
 }
 
-fun IKodi.mainNavigator(): IImmutableDelegate<NavController> = immutableInstance(scope = MAIN_NAVIGATOR)
-fun IKodi.onboardingNavigator(): IImmutableDelegate<NavController> = immutableInstance(scope = ONBOARDING_NAVIGATOR)
-fun IKodi.tabNavigator(): IImmutableDelegate<NavController> = immutableInstance(scope = TAB_NAVIGATOR)
+val IKodi.mainNavigator: NavController get() = instance(scope = MAIN_NAVIGATOR)
+val IKodi.onboardingNavigator: NavController get() = instance(scope = ONBOARDING_NAVIGATOR)
+val IKodi.tabNavigator: NavController get() = instance(scope = TAB_NAVIGATOR)

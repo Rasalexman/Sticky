@@ -1,25 +1,20 @@
 package com.rasalexman.stickyexample.presentation.onboarding.signin
 
 import android.util.Patterns
-import androidx.navigation.NavController
+import com.rasalexman.coroutinesmanager.ICoroutinesManager
+import com.rasalexman.coroutinesmanager.launchOnUITryCatch
 import com.rasalexman.kodi.core.IKodi
+import com.rasalexman.sticky.core.sticky.clear
 import com.rasalexman.stickyexample.R
-import com.rasalexman.sticky.common.YUI
 import com.rasalexman.stickyexample.data.local.IUserAccount
 import com.rasalexman.stickyexample.data.local.isRegistered
 import com.rasalexman.stickyexample.navigation.mainNavigator
 import com.rasalexman.stickyexample.navigation.onboardingNavigator
-import com.rasalexman.coroutinesmanager.ICoroutinesManager
-import com.rasalexman.coroutinesmanager.launchOnUITryCatch
-import com.rasalexman.sticky.core.sticky.clear
 
 class SignInPresenter(
     private val userAccount: IUserAccount,
     coroutinesManager: ICoroutinesManager
 ) : ISignInContract.IPresenter, IKodi, ICoroutinesManager by coroutinesManager {
-
-    private val navigatorController: NavController by onboardingNavigator()
-    private val mainNavigator: NavController by mainNavigator()
 
     override fun onSignInClicked(email: String, password: String) = launchOnUITryCatch(
         tryBlock = {
@@ -56,7 +51,7 @@ class SignInPresenter(
     )
 
     override fun onRegisterClicked() {
-        navigatorController.navigate(R.id.action_signInFragment_to_signUpFragment)
+        onboardingNavigator.navigate(R.id.action_signInFragment_to_signUpFragment)
     }
 
     private fun navigateToMainScreen() {

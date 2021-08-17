@@ -15,6 +15,7 @@
     <string name="title_email_hint">Enter email</string>
     <string name="title_password_hint">Enter password</string>
     <string name="title_password_repeate_hint">Repeate password</string>
+    <string name="hint_seach_query">Enter filters</string>
 
     <string name="title_apply">Apply</string>
     <string name="title_cancel">Cancel</string>

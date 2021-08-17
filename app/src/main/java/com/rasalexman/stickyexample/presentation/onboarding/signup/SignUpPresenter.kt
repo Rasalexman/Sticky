@@ -1,35 +1,41 @@
 package com.rasalexman.stickyexample.presentation.onboarding.signup
 
 import android.util.Patterns
-import androidx.navigation.NavController
+import androidx.databinding.ObservableField
+import com.rasalexman.coroutinesmanager.ICoroutinesManager
+import com.rasalexman.coroutinesmanager.launchOnUITryCatch
 import com.rasalexman.kodi.core.IKodi
 import com.rasalexman.stickyexample.R
-import com.rasalexman.sticky.common.YUI
+import com.rasalexman.stickyexample.common.combine
 import com.rasalexman.stickyexample.data.local.IUserAccount
 import com.rasalexman.stickyexample.navigation.mainNavigator
 import com.rasalexman.stickyexample.navigation.onboardingNavigator
-import com.rasalexman.coroutinesmanager.ICoroutinesManager
-import com.rasalexman.coroutinesmanager.launchOnUITryCatch
 
 class SignUpPresenter(
     private val userAccount: IUserAccount,
     coroutinesManager: ICoroutinesManager
 ) : ISignUpContract.IPresenter, IKodi, ICoroutinesManager by coroutinesManager {
 
-    private val navigatorController: NavController by onboardingNavigator()
-    private val mainNavigator: NavController by mainNavigator()
 
-    override fun onViewCreated(view: ISignUpContract.IView) {
-        println("$YUI HELLO FROM SignUpPresenter")
+    override val name: ObservableField<String> = ObservableField("")
+    override val email: ObservableField<String> = ObservableField("")
+    override val password: ObservableField<String> = ObservableField("")
+    override val repeatedPassword: ObservableField<String> = ObservableField("")
+
+    override val buttonEnabled: ObservableField<Boolean> = name.combine(
+        email, password, repeatedPassword
+    ) { data ->
+        data.all { it.isNotEmpty() }
     }
 
-    override fun onRegisterClicked(
-        name: String,
-        email: String,
-        password: String,
-        repeatedPassword: String
-    ) = launchOnUITryCatch(
+    override fun onRegisterClicked() = launchOnUITryCatch(
         tryBlock = {
+
+            val name: String = name.get().orEmpty()
+            val email: String = email.get().orEmpty()
+            val password: String = password.get().orEmpty()
+            val repeatedPassword: String = repeatedPassword.get().orEmpty()
+
             view().singleSticky {
                 showLoading()
                 when {
@@ -57,7 +63,7 @@ class SignUpPresenter(
     )
 
     override fun onBackClicked() {
-        navigatorController.popBackStack()
+        onboardingNavigator.popBackStack()
     }
 
     private fun navigateToMainScreen() {

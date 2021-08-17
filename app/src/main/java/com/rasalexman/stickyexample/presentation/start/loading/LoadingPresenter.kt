@@ -1,7 +1,7 @@
 package com.rasalexman.stickyexample.presentation.start.loading
 
 import com.rasalexman.kodi.core.IKodi
-import com.rasalexman.sticky.common.YUI
+import com.rasalexman.stickyexample.common.YUI
 
 class LoadingPresenter : ILoadingContract.IPresenter, IKodi {
 

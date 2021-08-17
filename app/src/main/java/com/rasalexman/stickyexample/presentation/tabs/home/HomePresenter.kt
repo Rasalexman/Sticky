@@ -1,23 +1,19 @@
 package com.rasalexman.stickyexample.presentation.tabs.home
 
 import androidx.lifecycle.Observer
-import androidx.navigation.NavController
-import com.rasalexman.kodi.core.IKodi
-import com.rasalexman.stickyexample.R
-import com.rasalexman.sticky.common.SResult
-import com.rasalexman.sticky.common.YUI
-import com.rasalexman.stickyexample.navigation.tabNavigator
 import com.rasalexman.coroutinesmanager.ICoroutinesManager
 import com.rasalexman.coroutinesmanager.launchOnUITryCatch
+import com.rasalexman.kodi.core.IKodi
+import com.rasalexman.stickyexample.common.SResult
 import com.rasalexman.sticky.common.viewModel
 import com.rasalexman.sticky.common.viewModelLazy
 import com.rasalexman.sticky.core.IStickyView
+import com.rasalexman.stickyexample.R
+import com.rasalexman.stickyexample.common.YUI
 
 class HomePresenter(
     coroutinesManager: ICoroutinesManager
 ) : IHomeContract.IPresenter, IKodi, ICoroutinesManager by coroutinesManager {
-
-    private val tabNavigator: NavController by tabNavigator()
 
     private val homeObserver = Observer(::homeViewModelReducer)
 
@@ -44,7 +40,7 @@ class HomePresenter(
 
     override fun onViewDestroyed(view: IHomeContract.IView) {
         val homeViewModel: HomeViewModel by view.viewModelLazy()
-        homeViewModel.getHomeLiveData().removeObserver(homeObserver)
+        homeViewModel.getHomeLiveData().removeObservers(view)
         cleanup()
     }
 }

@@ -17,6 +17,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import com.rasalexman.sticky.core.sticky.*
+import java.lang.ref.WeakReference
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
@@ -34,7 +35,7 @@ interface IStickyPresenter<V : IStickyView> : LifecycleObserver {
      * You can override get() method
      */
     val unsafeView: V?
-        get() = viewLifecyclerMap[this] as? V
+        get() = (viewLifecyclerMap[this]?.get()) as? V
 
     /**
      * Flag that says must restore sticky continuation when [Lifecycle.State.RESUMED] is fired from [IStickyView] instance
@@ -75,7 +76,6 @@ interface IStickyPresenter<V : IStickyView> : LifecycleObserver {
      */
     fun onFirstAttach(view: IStickyView) {
         (view as? V)?.let { castedView ->
-            saveCastedView(castedView)
             onViewCreated(castedView)
         }
     }
@@ -91,8 +91,11 @@ interface IStickyPresenter<V : IStickyView> : LifecycleObserver {
     }
 
     private fun saveCastedView(view: V) {
-        viewLifecyclerMap[this] = view
-        view.lifecycle.addObserver(this)
+        viewLifecyclerMap[this] = WeakReference(view)
+        view.lifecycle.let {
+            it.removeObserver(this)
+            it.addObserver(this)
+        }
     }
 
     /**
@@ -145,9 +148,9 @@ interface IStickyPresenter<V : IStickyView> : LifecycleObserver {
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun onViewDestroyed() {
-        this.viewLifecycle?.removeObserver(this)
-        unsafeView?.let { onViewDestroyed(it) }
+        viewLifecyclerMap[this]?.clear()
         viewLifecyclerMap[this] = null
+        viewContinuations.clear()
         viewRestoreStickiesMap[this] = true
     }
 
@@ -268,6 +271,9 @@ interface IStickyPresenter<V : IStickyView> : LifecycleObserver {
      * Clear all instances and continuations
      */
     fun <V : IStickyView> IStickyPresenter<V>.cleanup() {
+        unsafeView?.let { savedView ->
+            savedView.lifecycle.removeObserver(this)
+        }
         viewLifecyclerMap.remove(this)
         viewAvailableMap.remove(this)
         viewRestoreStickiesMap.remove(this)

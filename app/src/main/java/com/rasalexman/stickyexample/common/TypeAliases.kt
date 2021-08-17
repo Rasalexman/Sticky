@@ -1,6 +1,7 @@
 package com.rasalexman.sticky.common
 
 import androidx.lifecycle.LiveData
+import com.rasalexman.stickyexample.common.SResult
 import com.rasalexman.stickyexample.presentation.tabs.home.HomeUiModel
 import com.rasalexman.stickyexample.presentation.tabs.search.SearchUiModel
 

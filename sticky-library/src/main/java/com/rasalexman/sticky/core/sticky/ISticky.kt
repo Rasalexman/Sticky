@@ -14,12 +14,16 @@
 package com.rasalexman.sticky.core.sticky
 
 import com.rasalexman.sticky.core.IStickyView
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
 import kotlin.coroutines.Continuation
 
 /**
  *
  */
 interface ISticky<V : IStickyView> : Continuation<V> {
+
+    val stickyJob: Job
 
     /**
      * Sticky Strategy [StickyStrategy]

@@ -52,7 +52,6 @@ abstract class StickyFragment<P : IStickyPresenter<out IStickyView>> : Fragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         attach()
-        addListeners()
     }
 
     /**
