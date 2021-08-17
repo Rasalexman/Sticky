@@ -1,23 +1,23 @@
 # Sticky
-[ ![Kotlin 1.3.50](https://img.shields.io/badge/Kotlin-1.3.50-blue.svg)](http://kotlinlang.org) [ ![Download](https://api.bintray.com/packages/sphc/Sticky/sticky/images/download.svg) ](https://bintray.com/sphc/Sticky/sticky/_latestVersion)
+[ ![Kotlin 1.3.50](https://img.shields.io/badge/Kotlin-1.3.50-blue.svg)](http://kotlinlang.org)
 
 Save view state with coroutines continuation
 
 Gradle:
 ```
 // add maven repository 
-maven { url  "https://dl.bintray.com/sphc/Sticky" }
+maven { url 'https://jitpack.io' }
 
 // Standart Library
-implementation 'com.rasalexman.sticky:sticky:x.y.z'
+implementation 'com.github.Rasalexman:Sticky:x.y.z'
 ```
 
 Maven:
 ```
 // Main Library
 <dependency>
-	<groupId>com.rasalexman.sticky</groupId>
-	<artifactId>sticky</artifactId>
+	<groupId>com.github.Rasalexman</groupId>
+	<artifactId>Sticky</artifactId>
 	<version>x.y.z</version>
 	<type>pom</type>
 </dependency>
