@@ -57,7 +57,7 @@ typealias ViewRestoreStickyMap = MutableMap<IStickyPresenter<*>, Boolean>
 /**
  * literal function with reciever
  */
-typealias StickyBlock<V> = suspend V.(ISticky<V>) -> Unit
+typealias StickyBlock<V> = V.(ISticky<V>) -> Unit
 
 /**
  * Remover function

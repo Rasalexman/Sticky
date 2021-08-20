@@ -15,7 +15,10 @@ package com.rasalexman.sticky.core.sticky
 
 import com.rasalexman.sticky.common.StickyException
 import com.rasalexman.sticky.core.IStickyView
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.coroutines.resumeWithException
@@ -33,9 +36,6 @@ data class Sticky<V : IStickyView>(
     override var stickyBlock: StickyBlock<V>? = null,
     override var removerCallback: StickyRemover<V>? = null
 ) : ISticky<V> {
-
-    override val stickyJob: Job = SupervisorJob()
-    private val scope = CoroutineScope(context + stickyJob + Dispatchers.Main)
 
     /**
      * Exception
@@ -56,11 +56,7 @@ data class Sticky<V : IStickyView>(
         when {
             result.isSuccess -> {
                 stickyBlock?.let { block ->
-                    result.getOrNull()?.let {
-                        scope.launch {
-                            it.block(this@Sticky)
-                        }
-                    } ?: this.resumeWithException(StickyException.ReceiverClassException())
+                    result.getOrNull()?.block(this) ?: this.resumeWithException(StickyException.ReceiverClassException())
                 } ?: this.resumeWithException(StickyException.ExecutionBlockException())
             }
             result.isFailure -> {
