@@ -10,12 +10,14 @@ class ProfilePresenter(
     coroutinesManager: ICoroutinesManager
 ) : IProfileContract.IPresenter, IKodi, ICoroutinesManager by coroutinesManager {
 
-    override fun onViewCreated(view: IProfileContract.IView) = launchOnUITryCatch(
-        tryBlock = {
-            println("$YUI HELLO THIS IS A ProfilePresenter")
-            view().showLoading()
-        }, catchBlock = {
-            view().showToast(R.string.error_unexpected)
-        }
-    )
+    override fun onViewCreated(view: IProfileContract.IView) {
+        launchOnUITryCatch(
+            tryBlock = {
+                println("$YUI HELLO THIS IS A ProfilePresenter")
+                view().showLoading()
+            }, catchBlock = {
+                view().showToast(R.string.error_unexpected)
+            }
+        )
+    }
 }

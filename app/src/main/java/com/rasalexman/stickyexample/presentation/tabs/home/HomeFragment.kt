@@ -86,7 +86,7 @@ fun NavGraph.findStartDestination(): NavDestination {
     var startDestination: NavDestination? = this
     while (startDestination is NavGraph) {
         val parent = startDestination
-        startDestination = parent.findNode(parent.startDestination)
+        startDestination = parent.findNode(parent.startDestinationId)
     }
     return startDestination ?: this
 }

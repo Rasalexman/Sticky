@@ -4,14 +4,14 @@ apply plugin: 'kotlin-android'
 apply plugin: 'maven-publish'
 
 android {
-    compileSdkVersion COMPILE_VERSION
+    compileSdk = COMPILE_VERSION
 
     defaultConfig {
-        minSdkVersion MIN_VERSION
-        targetSdkVersion TARGET_VERSION
-        versionCode stickyLibCode
-        versionName stickyLibVersion
-
+        minSdk = MIN_VERSION
+        targetSdk = TARGET_VERSION
+        //versionCode stickyLibCode
+        //versionName stickyLibVersion
+        version = stickyLibVersion
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -28,15 +28,25 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
+        languageVersion = "1.5"
+        apiVersion = "1.5"
         //freeCompilerArgs = ["-XXLanguage:+InlineClasses", "-Xexperimental=kotlin.ExperimentalUnsignedTypes"]
     }
 
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+
+    //withJavadocJar()
+    //withSourcesJar()
 }
 
 static def renameAPK(variant) {
@@ -49,22 +59,15 @@ static def renameAPK(variant) {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version")
+    //implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version")
     //compileOnly("androidx.core:core-ktx:$appCoreXVersion")
-    compileOnly("androidx.fragment:fragment-ktx:$fragmentVersion")
+    implementation("androidx.fragment:fragment-ktx:$fragmentVersion")
+    //implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
     //compileOnly("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
 
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-
-    //withJavadocJar()
-    //withSourcesJar()
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test:runner:1.4.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 }
 
 version = stickyLibVersion

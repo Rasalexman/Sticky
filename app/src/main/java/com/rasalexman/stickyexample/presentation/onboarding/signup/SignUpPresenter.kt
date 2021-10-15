@@ -28,39 +28,41 @@ class SignUpPresenter(
         data.all { it.isNotEmpty() }
     }
 
-    override fun onRegisterClicked() = launchOnUITryCatch(
-        tryBlock = {
+    override fun onRegisterClicked() {
+        launchOnUITryCatch(
+            tryBlock = {
 
-            val name: String = name.get().orEmpty()
-            val email: String = email.get().orEmpty()
-            val password: String = password.get().orEmpty()
-            val repeatedPassword: String = repeatedPassword.get().orEmpty()
+                val name: String = name.get().orEmpty()
+                val email: String = email.get().orEmpty()
+                val password: String = password.get().orEmpty()
+                val repeatedPassword: String = repeatedPassword.get().orEmpty()
 
-            view().singleSticky {
-                showLoading()
-                when {
-                    name.isEmpty() -> showAlertDialog(R.string.error_user_name_empty)
-                    email.isEmpty() -> showAlertDialog(R.string.error_user_email_empty)
-                    !Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
-                        showAlertDialog(R.string.error_user_email_incorrect)
-                    }
-                    password.isEmpty() -> showAlertDialog(R.string.error_user_password_empty)
-                    (password != repeatedPassword) -> {
-                        showAlertDialog(R.string.error_user_repeated_password_incorrect)
-                    }
-                    else -> {
-                        userAccount.name = name
-                        userAccount.email = email
-                        userAccount.token = password
-                        navigateToMainScreen()
+                view().singleSticky {
+                    showLoading()
+                    when {
+                        name.isEmpty() -> showAlertDialog(R.string.error_user_name_empty)
+                        email.isEmpty() -> showAlertDialog(R.string.error_user_email_empty)
+                        !Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
+                            showAlertDialog(R.string.error_user_email_incorrect)
+                        }
+                        password.isEmpty() -> showAlertDialog(R.string.error_user_password_empty)
+                        (password != repeatedPassword) -> {
+                            showAlertDialog(R.string.error_user_repeated_password_incorrect)
+                        }
+                        else -> {
+                            userAccount.name = name
+                            userAccount.email = email
+                            userAccount.token = password
+                            navigateToMainScreen()
+                        }
                     }
                 }
+            }, catchBlock = {
+                println("-----> onRegisterClicked error $it")
+                view().showToast(R.string.error_unexpected)
             }
-        }, catchBlock = {
-            println("-----> onRegisterClicked error $it")
-            view().showToast(R.string.error_unexpected)
-        }
-    )
+        )
+    }
 
     override fun onBackClicked() {
         onboardingNavigator.popBackStack()

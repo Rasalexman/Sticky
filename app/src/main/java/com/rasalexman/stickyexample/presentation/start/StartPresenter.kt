@@ -13,22 +13,24 @@ data class StartPresenter(
     private val userAccount: IUserAccount
 ) : BaseStartPresenter(), IKodi, ICoroutinesManager {
 
-    override fun onViewCreated(view: IStartContract.IStartView) = launchOnUITryCatch(
-        tryBlock = {
-            println("$YUI HELLO THIS IS A START PRESENTER with navigator $mainNavigator")
+    override fun onViewCreated(view: IStartContract.IStartView) {
+        launchOnUITryCatch(
+            tryBlock = {
+                println("$YUI HELLO THIS IS A START PRESENTER with navigator $mainNavigator")
 
-            view().singleSticky {
-                showLoading()
-                if(userAccount.isRegistered()) {
-                    mainNavigator.navigate(R.id.action_startFragment_to_tabFragment)
-                } else {
-                    mainNavigator.navigate(R.id.action_startFragment_to_onboarding)
+                view().singleSticky {
+                    showLoading()
+                    if(userAccount.isRegistered()) {
+                        mainNavigator.navigate(R.id.action_startFragment_to_tabFragment)
+                    } else {
+                        mainNavigator.navigate(R.id.action_startFragment_to_onboarding)
+                    }
                 }
+            }, catchBlock = {
+                view().showToast(R.string.error_unexpected)
             }
-        }, catchBlock = {
-            view().showToast(R.string.error_unexpected)
-        }
-    )
+        )
+    }
 
     override fun onViewDestroyed(view: IStartContract.IStartView) {
         cleanup()

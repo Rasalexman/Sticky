@@ -15,10 +15,6 @@ package com.rasalexman.sticky.core.sticky
 
 import com.rasalexman.sticky.common.StickyException
 import com.rasalexman.sticky.core.IStickyView
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.SupervisorJob
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.coroutines.resumeWithException

@@ -16,39 +16,41 @@ class SignInPresenter(
     coroutinesManager: ICoroutinesManager
 ) : ISignInContract.IPresenter, IKodi, ICoroutinesManager by coroutinesManager {
 
-    override fun onSignInClicked(email: String, password: String) = launchOnUITryCatch(
-        tryBlock = {
-            view().showLoading()
-            view().singleSticky {
-                val okHandler = { it.clear() }
+    override fun onSignInClicked(email: String, password: String){
+        launchOnUITryCatch(
+            tryBlock = {
+                view().showLoading()
+                view().singleSticky {
+                    val okHandler = { it.clear() }
 
-                when {
-                    email.isEmpty() -> showAlertDialog(R.string.error_user_email_empty, okHandler = okHandler)
-                    password.isEmpty() -> showAlertDialog(R.string.error_user_password_empty, okHandler = okHandler)
-                    !userAccount.isRegistered() -> showAlertDialog(
-                        message = R.string.error_user_not_exist,
-                        okTitle = R.string.title_go_to_sign_up,
-                        okHandler = {
-                            it.clear()
-                            onRegisterClicked()
+                    when {
+                        email.isEmpty() -> showAlertDialog(R.string.error_user_email_empty, okHandler = okHandler)
+                        password.isEmpty() -> showAlertDialog(R.string.error_user_password_empty, okHandler = okHandler)
+                        !userAccount.isRegistered() -> showAlertDialog(
+                            message = R.string.error_user_not_exist,
+                            okTitle = R.string.title_go_to_sign_up,
+                            okHandler = {
+                                it.clear()
+                                onRegisterClicked()
+                            }
+                        )
+                        !Patterns.EMAIL_ADDRESS.matcher(email).matches() || (email != userAccount.email) -> {
+                            showAlertDialog(R.string.error_user_email_incorrect, okHandler = okHandler)
                         }
-                    )
-                    !Patterns.EMAIL_ADDRESS.matcher(email).matches() || (email != userAccount.email) -> {
-                        showAlertDialog(R.string.error_user_email_incorrect, okHandler = okHandler)
-                    }
-                    (password != userAccount.token) -> {
-                        showAlertDialog(R.string.error_user_password_incorrect, okHandler = okHandler)
-                    }
-                    else -> {
-                        okHandler()
-                        navigateToMainScreen()
+                        (password != userAccount.token) -> {
+                            showAlertDialog(R.string.error_user_password_incorrect, okHandler = okHandler)
+                        }
+                        else -> {
+                            okHandler()
+                            navigateToMainScreen()
+                        }
                     }
                 }
+            }, catchBlock = {
+                view().showToast(R.string.error_unexpected)
             }
-        }, catchBlock = {
-            view().showToast(R.string.error_unexpected)
-        }
-    )
+        )
+    }
 
     override fun onRegisterClicked() {
         onboardingNavigator.navigate(R.id.action_signInFragment_to_signUpFragment)

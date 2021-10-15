@@ -15,15 +15,17 @@ class SearchPresenter(
 
     private val searchObserver = Observer(::searchLiveDataReducer)
 
-    override fun onViewCreated(view: ISearchContract.IView) = launchOnUITryCatch(
-        tryBlock = {
-            println("$YUI HELLO THIS IS A SearchPresenter")
-            searchViewModel.getSearchLiveData().observe(view(), searchObserver)
-        }, catchBlock = {
-            println("$YUI catchBlock in SearchPresenter")
-            view().showToast(R.string.error_unexpected)
-        }
-    )
+    override fun onViewCreated(view: ISearchContract.IView) {
+        launchOnUITryCatch(
+            tryBlock = {
+                println("$YUI HELLO THIS IS A SearchPresenter")
+                searchViewModel.getSearchLiveData().observe(view(), searchObserver)
+            }, catchBlock = {
+                println("$YUI catchBlock in SearchPresenter")
+                view().showToast(R.string.error_unexpected)
+            }
+        )
+    }
 
     private fun searchLiveDataReducer(result: SResult<List<SearchUiModel>>) = launchOnUITryCatch(
         tryBlock = {
@@ -31,6 +33,7 @@ class SearchPresenter(
                 is SResult.Loading -> view().showLoading()
                 //is SResult.Success -> showItems(result.data)
                 is SResult.Error -> view().showToast(result.message)
+                else -> Unit
             }
         }, catchBlock = {
             view().showToast(R.string.error_reducer_unexpected)

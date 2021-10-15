@@ -17,14 +17,16 @@ class HomePresenter(
 
     private val homeObserver = Observer(::homeViewModelReducer)
 
-    override fun onFirstAttach(view: IStickyView) = launchOnUITryCatch(
-        tryBlock = {
-            println("$YUI HELLO THIS IS A ${this@HomePresenter}")
-            view().viewModel<HomeViewModel>().getHomeLiveData().observe(view, homeObserver)
-        }, catchBlock = {
-            view().showToast(R.string.error_unexpected)
-        }
-    )
+    override fun onFirstAttach(view: IStickyView) {
+        launchOnUITryCatch(
+            tryBlock = {
+                println("$YUI HELLO THIS IS A ${this@HomePresenter}")
+                view().viewModel<HomeViewModel>().getHomeLiveData().observe(view, homeObserver)
+            }, catchBlock = {
+                view().showToast(R.string.error_unexpected)
+            }
+        )
+    }
 
     private fun homeViewModelReducer(result: SResult<List<HomeUiModel>>) = launchOnUITryCatch(
         tryBlock = {

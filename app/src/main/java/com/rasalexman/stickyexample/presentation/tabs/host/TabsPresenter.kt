@@ -8,12 +8,13 @@ class TabsPresenter(
     coroutinesManager: ICoroutinesManager
 ) : ITabsContract.IPresenter, ICoroutinesManager by coroutinesManager {
 
-    override fun onViewCreated(view: ITabsContract.IView) = launchOnUITryCatch(
-        tryBlock = {
-            println("$YUI HELLO THIS IS A TabsPresenter")
+    override fun onViewCreated(view: ITabsContract.IView) {
+        launchOnUITryCatch(
+            tryBlock = {
+                println("$YUI HELLO THIS IS A TabsPresenter")
+            }, catchBlock = {
 
-        }, catchBlock = {
-
-        }
-    )
+            }
+        )
+    }
 }
