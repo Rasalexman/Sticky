@@ -8,7 +8,7 @@ android {
         applicationId "com.rasalexman.stickyexample"
         minSdk = MIN_VERSION
         targetSdk = TARGET_VERSION
-        version = "1.0.0"
+        version = "1.0.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled = true
     }
@@ -31,8 +31,8 @@ android {
 
     kotlinOptions {
         jvmTarget = "11"
-        languageVersion = "1.5"
-        apiVersion = "1.5"
+        languageVersion = "1.6"
+        apiVersion = "1.6"
         //freeCompilerArgs = ["-XXLanguage:+InlineClasses", "-Xexperimental=kotlin.ExperimentalUnsignedTypes"]
     }
 }
@@ -46,7 +46,7 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation.fragment"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation.ui"
     implementation "com.google.android.material:material:$materialVersion"
-    implementation("androidx.databinding:viewbinding:7.0.3")
+    implementation("androidx.databinding:viewbinding:7.2.1")
 
     //implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
